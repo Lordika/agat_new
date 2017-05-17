@@ -1,5 +1,5 @@
 from django.http import HttpResponseRedirect, HttpResponse
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, render, redirect
 from loginsys.forms import LoginForm
 
 from .models import Task
@@ -14,5 +14,9 @@ def index(request):
 
 
 def TasksView(request, task_id):
+    if not request.user.is_authenticated:
+        return redirect('/')
     task = get_object_or_404(Task, pk=task_id)
-    return HttpResponse("You're voting on question %s." % task_id)
+    curtask = {'pass': 'generator/{}.html'.format(task.id)}
+    tasks_list = Task.objects.all()
+    return render(request, 'generator/index.html', {'tasks_list': tasks_list, 'task': curtask})
