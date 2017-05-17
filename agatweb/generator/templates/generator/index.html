@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+{# Load the tag library #}
+{% load bootstrap3 %}
+{% load staticfiles %}
+
+{# Load CSS and JavaScript #}
+
+
+
+    <link href="{% static 'generator/css/style.css' %}" rel="stylesheet">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>AGAT</title>
+
+    
+    <!-- Bootstrap -->
+    {# Display django.contrib.messages as Bootstrap alerts #}
+    {% bootstrap_messages %}
+    {% bootstrap_css %}
+    <!--  <link href="{% static 'generator/css/bootstrap.min.css' %}" rel="stylesheet">-->
+    <link href="{% static 'generator/css/font-awesome.min.css' %}" rel="stylesheet">
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>    
+   <header>
+         {% include "generator/nav.html"%}
+      </header>            
+    <main>
+        <div class="container">
+            <div class="row">
+               <article class="col-xs-12 col-sm-12 col-md-8 col-lg-9">
+               
+<p>
+Краткая предыстория<br>
+В процессе написания одного веб-приложения возникла необходимость тестировать код на PHP, интенсивно взаимодействующий с БД MySQL. В проекте в качестве фреймворка модульного тестирования использовался порт xUnit — PHPUnit. В результате было принято решение писать тесты для модулей, непосредственно взаимодействующих с базой, подцепив плагин PHPUnit/DbUnit. Дальше я расскажу о тех трудностях, которые возникли при написании тестов и о том, каким способом я их преодолел. В ответ же хотелось бы получить комментарии знающих людей относительно корректности моих решений.
+</p>
+<p>
+Как работает DbUnit
+</p>
+<p>
+Подпункт предназначен для тех, кто не знаком с методикой тестирования с использованием PHPUnit и/или DbUnit. Кому не интересно, смело можно переходить к следующему.
+</p>
+Далее по тексту: 
+тестовый класс — класс, содержащий код модульных тестов, наследник любой из реализаций PHPUnit::TestCase;
+тестируемый класс — класс, который необходимо протестировать.
+Так как подпункт для начинающих, то для начала будет рассмотрена процедура модульного тестирования обычных классов PHP, а потом описаны отличия при тестировании кода, взаимодействующего с БД.
+<<p>
+Тестирование обычных классов PHP
+</p>
+<p>
+Чтобы протестировать класс, написанный на PHP, с использованием фреймворка PHPUnit, необходимо создать тестовый класс, расширяющий базовый класс PHPUnit_Framework_TestCase. Затем создать в этом классе публичные методы, начинающиеся со слова test (если создать метод, который будет называться по-другому, он не будет автоматически вызван при прогоне тестов), и поместить в них код, выполняющий действия с объектами тестируемого класса и проверяющий результат. На этом можно закончить и скормить полученный класс phpunit, который, в свою очередь, последовательно вызовет все тестовые методы и любезно предоставит отчет об их работе. Однако в большинстве случаев в каждом из тестовых методов будет повторяющийся код, подготавливающий систему для работы с тестируемым объектом. Для того, чтобы избежать дублирования кода, в классе PHPUnit_Framework_TestCase созданы защищенные методы setUp и tearDown, имеющие пустую реализацию. Эти методы вызываются перед и после запуска очередного тестового метода соответственно и служат для подготовки системы к выполнению тестовых действий и очистки ее после завершения каждого теста. В тестовом классе, расширяющем PHPUnit_Framework_TestCase, можно переопределить эти методы и поместить повторяющийся ранее в каждом тестовом методе код в них. В результате последовательность вызова методов при прогонке тестов будет следующая:<br>
+setUp()       {/* Установили систему в нужное состояние */}<br>
+testMethod1() {/* протестировали метод 1 класса */}<br>
+tearDown()    {/* Очистили систему */}<br>
+setUp()       {/* Установили систему в нужное состояние */}<br>
+testMethod2() {/* протестировали метод 2 класса */}<br>
+tearDown()    {/* Очистили систему */}<br>
+…<br>
+setUp()       {/* Установили систему в нужное состояние */}<br>
+testMethodN() {/* протестировали метод N класса */}<br>
+tearDown()    {/* Очистили систему */}<br>
+</p>
+<p>
+Тестирование кода PHP, взаимодействующего с БД
+</p>
+Процесс написания тестов для кода, взаимодействующего с БД, практически не отличается от процедуры тестирования обычных классов PHP. Сначала необходимо создать тестовый класс, наследующий PHPUnit_Extensions_Database_TestCase (класс PHPUnit_Extensions_Database_TestCase сам при этом наследует PHPUnit_Framework_TestCase), который будет содержать тесты для методов тестируемого класса. Затем создать тестовые методы, начинающиеся с префикса test, а потом скормить этот код phpunit с указанием имени тестового класса. Отличия заключаются лишь в том, что в тестовом классе обязательно необходимо реализовать два публичных метода — getConnection() и getDataSet(). Первый метод необходим для того, чтобы научить DbUnit работать с БД (придется использовать PDO), а второй для того, чтобы сообщить фреймворку, в какое состояние переводить базу данных перед выполнением очередного теста. Под DataSet в терминологии DbUnit понимается набор из одной или более таблиц. 
+
+Как говорилось выше, перед выполнением очередного теста (представленного методом в тестовом классе), PHPUnit вызывает специальный метод setUp(), чтобы сэмулировать среду выполнения для объекта тестируемого класса. В случае DbUnit реализация по умолчанию метода setUp() уже не пустая. Если говорить в общих чертах, то внутри метода setUp() будет создан некий объект databaseTester, который, используя определенный нами метод getConnection(), переведет базу в состояние, представленное набором таблиц (DataSet`ом), получаемым при вызове метода getDataSet(). Если вы были внимательны, то реализация метода getDataSet() также должна предоставляться тестовым классом, т.е. нами. В результате получим похожую последовательность вызовов
+               </article>
+                <aside class="col-xs-12 col-sm-12 col-md-4 col-lg-3">
+                    <ul class="myside">
+                        <li><i class="fa fa-check" aria-hidden="true"></i>Попытка 1</li>
+                        <li><i class="fa fa-clock-o" aria-hidden="true"></i>Попытка 2</li>
+                        <li><i class="fa fa-times" aria-hidden="true"></i>Попытка 3</li>
+                        <li><i class="fa fa-spinner" aria-hidden="true"></i>Попытка 4</li>
+                    </ul>
+                    <button type="button" class="btn btn-success">
+                        Сгенерировать
+                    </button>
+                </aside>
+            </div>
+        </div>
+    </main>
+    <footer>
+        <div class="container">
+            
+        </div>
+    </footer>    
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    {% bootstrap_javascript %}
+     <!--<script src="{% static 'generator/js/bootstrap.min.js' %}"></script>-->
+  </body>
+</html>

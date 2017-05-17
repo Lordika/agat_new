@@ -1,0 +1,326 @@
+﻿\newcommand\ARG{\mathrm{ARG}}
+\newcommand\TheComplex[2]{\arabic{#1} \IfNegate{#2}{}{+} \arabic{#2}i}
+
+% Нахождение модуля и аргумента комплексного числа
+\newcommand\ComplexOne{%
+	\ensuremath{z = \TheComplex{detaa}{detab}}%
+}
+
+\newcommand\MultiComplexOne[2][\time]{%
+	\reinitrand[seed=#1, first=-9, last=9]%
+	\ToNull{tmpa}%
+	\whiledo{\value{tmpa}<#2}{%
+		\Inc{tmpa}\Inc{primcount} \InitDet \theprimcount\ \ComplexOne. %\qquad%
+		\\[.5cm] \par
+%		\ifthenelse{\value{tmpa}<#2}{\Inc{tmpa}\Inc{primcount} \InitDet[4] \theprimcount \InvertSystem}{} \\[.5cm] \par%
+	 }%
+}
+
+\newcommand\SolveComplexOne[1]{%
+	\ifthenelse{\equal{#1}{O}}{%
+		\setcounter{detca}{\value{detaa}*\value{detaa} + \value{detab}*\value{detab}}%
+		\ComplexOne: %
+		$$%
+			|z| = r = \sqrt{\arabic{detca}}, \quad \ARG(z) = \varphi = \arctg\frac{\arabic{detab}}{\arabic{detaa}}%
+		$$%
+	}{%
+	}%
+}
+
+\newcommand\MultiSolveComplexOne[3][\time]{%
+	\reinitrand[seed=#1, first=-9, last=9]%
+	\ToNull{tmpa}%
+	\whiledo{\value{tmpa}<#2}{%
+		\Inc{tmpa}\Inc{primcount}\theprimcount\ \InitDet \SolveComplexOne{#3} \par%\\[.5cm] \par%
+	 }%
+}
+
+% Нахождение суммы, произведения и частного двух комплексных чисел
+\newcommand\ComplexOps{%
+	\ensuremath{z_1 = \TheComplex{detaa}{detab}, \quad z_2 = \TheComplex{detba}{detbb}}%
+}
+
+\newcommand\MultiComplexOps[2][\time]{%
+	\reinitrand[seed=#1, first=-9, last=9]%
+	\ToNull{tmpa}%
+	\whiledo{\value{tmpa}<#2}{%
+		\Inc{tmpa}\Inc{primcount} \InitDet \theprimcount\ \ComplexOps. %\qquad%
+		\\[.5cm] \par
+%		\ifthenelse{\value{tmpa}<#2}{\Inc{tmpa}\Inc{primcount} \InitDet[4] \theprimcount \InvertSystem}{} \\[.5cm] \par%
+	 }%
+}
+
+\newcommand\SolveComplexOps[1]{%
+	\ifthenelse{\equal{#1}{O}}{%
+		\ComplexOps: 
+		$$
+			\setcounter{detac}{\value{detaa} + \value{detba}}%
+			\setcounter{detbc}{\value{detab} + \value{detbb}}%
+			z_1 + z_2 = \TheComplex{detac}{detbc},%
+			\setcounter{detac}{\value{detaa}*\value{detba} - \value{detab}*\value{detbb}}%
+			\setcounter{detbc}{\value{detaa}*\value{detbb} + \value{detba}*\value{detab}}%
+			\quad z_1 \cdot z_2 = \TheComplex{detac}{detbc},%
+			\setcounter{detac}{\value{detaa}*\value{detba} + \value{detab}*\value{detbb}}%
+			\setcounter{detbc}{-\value{detaa}*\value{detbb} + \value{detba}*\value{detab}}%
+			\setcounter{detcc}{\value{detba}*\value{detba} + \value{detbb}*\value{detbb}}%
+			\quad \frac{z_1}{z_2} = \frac{\TheComplex{detac}{detbc}}{\arabic{detcc}}.%
+		$$}{%
+	}%
+}
+
+\newcommand\MultiSolveComplexOps[3][\time]{%
+	\reinitrand[seed=#1, first=-9, last=9]%
+	\ToNull{tmpa}%
+	\whiledo{\value{tmpa}<#2}{%
+		\Inc{tmpa}\Inc{primcount}\theprimcount\ \InitDet \SolveComplexOps{#3} \par%\\[.5cm] \par%
+	 }%
+}
+
+% Решение кубического уравнения
+\newcommand\ComplexCubic{%
+	\ensuremath{%
+		\IfNegate{detac}{\Inverse{detac}}{}
+		\setcounter{detac}{\value{detac} / 2}
+		\IfNull{detaa}{\Dec{detaa}}{}%
+		\IfNull{detab}{\Inc{detab}}{}%
+		\IfNull{detac}{\Inc{detac}}{}%
+		\IfOne{detac}{\Inc{detac}}{}
+		\setcounter{detbc}{\value{detac} * \value{detab} * \value{detab}}%
+		\setcounter{detca}{- 2 * \value{detac} * \value{detab} * \value{detba} - \value{detaa} * \value{detab} * \value{detab}}%
+		\setcounter{detcb}{\value{detac} * \value{detba} * \value{detba} + \value{detac} * \value{detbb} * \value{detbb} + 2 * \value{detaa} * \value{detab} * \value{detba}}%
+		\setcounter{detcc}{- \value{detaa} * \value{detba} * \value{detba} - \value{detaa} * \value{detbb} * \value{detbb}}%
+		\SmartPrintValue[0]{detbc} x^3 \SmartPrintValue{detca} \IfNull{detca}{}{x^2} \SmartPrintValue{detcb}\IfNull{detcb}{}{x} \SmartPrintValue{detcc} = 0%
+	}%
+}
+
+\newcommand\MultiComplexCubic[2][\time]{%
+	\reinitrand[seed=#1, first=-9, last=9]%
+	\ToNull{tmpa}%
+	\whiledo{\value{tmpa}<#2}{%
+		\Inc{tmpa}\Inc{primcount} \InitDet \theprimcount\ \ComplexCubic. %\qquad%
+		\\[.5cm] \par
+%		\ifthenelse{\value{tmpa}<#2}{\Inc{tmpa}\Inc{primcount} \InitDet[4] \theprimcount \InvertSystem}{} \\[.5cm] \par%
+	 }%
+}
+
+\newcommand\SolveComplexCubic[1]{%
+	\ifthenelse{\equal{#1}{O}}{%
+		\IfNegate{detac}{\Inverse{detac}}{}
+		\setcounter{detac}{\value{detac} / 2}
+		\IfNull{detaa}{\Dec{detaa}}{}%
+		\IfNull{detab}{\Inc{detab}}{}%
+		\IfNull{detac}{\Inc{detac}}{}%
+		\IfOne{detac}{\Inc{detac}}{}
+		\ComplexCubic: $$x_1 = \frac{\arabic{detaa}}{\arabic{detac}}, \quad x_{2,3} = \IfOne{detab}{\arabic{detba}\pm\alg{detbb}i}{\frac{\arabic{detba}\pm\alg{detbb}i}{\arabic{detab}}}$$}{%
+	}%
+}
+
+\newcommand\MultiSolveComplexCubic[3][\time]{%
+	\reinitrand[seed=#1, first=-9, last=9]%
+	\ToNull{tmpa}%
+	\whiledo{\value{tmpa}<#2}{%
+		\Inc{tmpa}\Inc{primcount}\theprimcount\ \InitDet \SolveComplexCubic{#3} \par%\\[.5cm] \par%
+	 }%
+}
+
+% Нахождение натурального логарифма комплексного числа
+\newcommand\ComplexLn{%
+	\ensuremath{z = \TheComplex{detaa}{detab}}%
+}
+
+\newcommand\MultiComplexLn[2][\time]{%
+	\reinitrand[seed=#1, first=-9, last=9]%
+	\ToNull{tmpa}%
+	\whiledo{\value{tmpa}<#2}{%
+		\Inc{tmpa}\Inc{primcount} \InitDet \theprimcount\ \ComplexLn. %\qquad%
+		\\[.5cm] \par
+%		\ifthenelse{\value{tmpa}<#2}{\Inc{tmpa}\Inc{primcount} \InitDet[4] \theprimcount \InvertSystem}{} \\[.5cm] \par%
+	 }%
+}
+
+\newcommand\SolveComplexLn[1]{%
+	\ifthenelse{\equal{#1}{O}}{%
+		\setcounter{detca}{\value{detaa}*\value{detaa} + \value{detab}*\value{detab}}%
+		\ComplexLn: %
+		$$%
+			\ln(z) = \frac12 \ln\arabic{detca} + i(\arctg\frac{\arabic{detab}}{\arabic{detaa}}+2\pi k), \quad k \in Z.%
+		$$%
+	}{%
+	}%
+}
+
+\newcommand\MultiSolveComplexLn[3][\time]{%
+	\reinitrand[seed=#1, first=-9, last=9]%
+	\ToNull{tmpa}%
+	\whiledo{\value{tmpa}<#2}{%
+		\Inc{tmpa}\Inc{primcount}\theprimcount\ \InitDet \SolveComplexLn{#3} \par%\\[.5cm] \par%
+	 }%
+}
+
+% Нахождение Sh(z)
+\newcommand\ComplexSh{%
+	\ensuremath{\sh(\TheComplex{detaa}{detab})}%
+}
+
+\newcommand\MultiComplexSh[2][\time]{%
+	\reinitrand[seed=#1, first=-9, last=9]%
+	\ToNull{tmpa}%
+	\whiledo{\value{tmpa}<#2}{%
+		\Inc{tmpa}\Inc{primcount} \InitDet \theprimcount\ \ComplexSh. %\qquad%
+		\\[.5cm] \par
+%		\ifthenelse{\value{tmpa}<#2}{\Inc{tmpa}\Inc{primcount} \InitDet[4] \theprimcount \InvertSystem}{} \\[.5cm] \par%
+	 }%
+}
+
+\newcommand\SolveComplexSh[1]{%
+	\ifthenelse{\equal{#1}{O}}{%
+		$$%
+			\ComplexSh = \sh(\arabic{detaa})\cos(\arabic{detab}) + i \sin(\arabic{detab})\ch(\arabic{detaa}).
+		$$%
+	}{%
+	}%
+}
+
+\newcommand\MultiSolveComplexSh[3][\time]{%
+	\reinitrand[seed=#1, first=-9, last=9]%
+	\ToNull{tmpa}%
+	\whiledo{\value{tmpa}<#2}{%
+		\Inc{tmpa}\Inc{primcount}\theprimcount\ \InitDet \SolveComplexSh{#3} \par%\\[.5cm] \par%
+	 }%
+}
+
+% Нахождение Ch(z)
+\newcommand\ComplexCh{%
+	\ensuremath{\ch(\TheComplex{detaa}{detab})}%
+}
+
+\newcommand\MultiComplexCh[2][\time]{%
+	\reinitrand[seed=#1, first=-9, last=9]%
+	\ToNull{tmpa}%
+	\whiledo{\value{tmpa}<#2}{%
+		\Inc{tmpa}\Inc{primcount} \InitDet \theprimcount\ \ComplexCh. %\qquad%
+		\\[.5cm] \par
+%		\ifthenelse{\value{tmpa}<#2}{\Inc{tmpa}\Inc{primcount} \InitDet[4] \theprimcount \InvertSystem}{} \\[.5cm] \par%
+	 }%
+}
+
+\newcommand\SolveComplexCh[1]{%
+	\ifthenelse{\equal{#1}{O}}{%
+		$$%
+			\ComplexCh = \ch(\arabic{detaa})\cos(\arabic{detab}) + i \sin(\arabic{detab})\sh(\arabic{detaa}).
+		$$%
+	}{%
+	}%
+}
+
+\newcommand\MultiSolveComplexCh[3][\time]{%
+	\reinitrand[seed=#1, first=-9, last=9]%
+	\ToNull{tmpa}%
+	\whiledo{\value{tmpa}<#2}{%
+		\Inc{tmpa}\Inc{primcount}\theprimcount\ \InitDet \SolveComplexCh{#3} \par%\\[.5cm] \par%
+	 }%
+}
+
+% Взятие корня комплексного числа
+\newcommand\ComplexSqrt{%
+	\IfNegate{detac}{\Inverse{detac}}{}%
+	\ensuremath{\sqrt[\arabic{detac}]{\TheComplex{detaa}{detab}}}%
+}
+
+\newcommand\MultiComplexSqrt[2][\time]{%
+	\reinitrand[seed=#1, first=-9, last=9]%
+	\ToNull{tmpa}%
+	\whiledo{\value{tmpa}<#2}{%
+		\Inc{tmpa}\Inc{primcount} \InitDet \theprimcount\ \ComplexSqrt. %\qquad%
+		\\[.5cm] \par
+%		\ifthenelse{\value{tmpa}<#2}{\Inc{tmpa}\Inc{primcount} \InitDet[4] \theprimcount \InvertSystem}{} \\[.5cm] \par%
+	 }%
+}
+
+\newcommand\SolveComplexSqrt[1]{%
+	\ifthenelse{\equal{#1}{O}}{%
+		\IfNegate{detac}{\Inverse{detac}}{}%
+		\setcounter{detca}{\value{detaa}*\value{detaa} + \value{detab}*\value{detab}}%
+		\setcounter{detcc}{2 * \value{detac}}
+		$$%
+			\ComplexSqrt = \sqrt[\arabic{detcc}]{\arabic{detca}}\left(\cos\frac{\arctg\frac{\arabic{detab}}{\arabic{detaa}}+2\pi k}{\arabic{detac}} + i \sin\frac{\arctg\frac{\arabic{detab}}{\arabic{detaa}}+2\pi k}{\arabic{detac}}\right).%
+		$$%
+	}{%
+	}%
+}
+
+\newcommand\MultiSolveComplexSqrt[3][\time]{%
+	\reinitrand[seed=#1, first=-9, last=9]%
+	\ToNull{tmpa}%
+	\whiledo{\value{tmpa}<#2}{%
+		\Inc{tmpa}\Inc{primcount}\theprimcount\ \InitDet \SolveComplexSqrt{#3} \par%\\[.5cm] \par%
+	 }%
+}
+
+% Возведение в степень комплексного числа
+\newcommand\ComplexPower{%
+	\ensuremath{(\TheComplex{detaa}{detab})^{\arabic{detac}}}%
+}
+
+\newcommand\MultiComplexPower[2][\time]{%
+	\reinitrand[seed=#1, first=-9, last=9]%
+	\ToNull{tmpa}%
+	\whiledo{\value{tmpa}<#2}{%
+		\Inc{tmpa}\Inc{primcount} \InitDet \theprimcount\ \ComplexPower. %\qquad%
+		\\[.5cm] \par
+%		\ifthenelse{\value{tmpa}<#2}{\Inc{tmpa}\Inc{primcount} \InitDet[4] \theprimcount \InvertSystem}{} \\[.5cm] \par%
+	 }%
+}
+
+\newcommand\SolveComplexPower[1]{%
+	\ifthenelse{\equal{#1}{O}}{%
+		\setcounter{detca}{\value{detaa}*\value{detaa} + \value{detab}*\value{detab}}%
+		\setcounter{detcc}{\value{detac} / 2}
+		$$%
+			\ComplexPower = \ifthenelse{\isodd{\value{detac}}}{\arabic{detca}^{\frac{\arabic{detac}}{2}}}{\arabic{detca}^{\arabic{detcc}}}\left(\cos\left(\arabic{detac}\arctg\frac{\arabic{detab}}{\arabic{detaa}}\right) + i \sin\left(\arabic{detac}\arctg\frac{\arabic{detab}}{\arabic{detaa}}\right)\right).%
+		$$%
+	}{%
+	}%
+}
+
+\newcommand\MultiSolveComplexPower[3][\time]{%
+	\reinitrand[seed=#1, first=-9, last=9]%
+	\ToNull{tmpa}%
+	\whiledo{\value{tmpa}<#2}{%
+		\Inc{tmpa}\Inc{primcount}\theprimcount\ \InitDet \SolveComplexPower{#3} \par%\\[.5cm] \par%
+	 }%
+}
+
+% Возведение одного комплексного числа в другое
+\newcommand\ComplexXy{%
+	\ensuremath{(\arabic{detab} i)^{(\arabic{detaa} i)}}%
+}
+
+\newcommand\MultiComplexXy[2][\time]{%
+	\reinitrand[seed=#1, first=-9, last=9]%
+	\ToNull{tmpa}%
+	\whiledo{\value{tmpa}<#2}{%
+		\Inc{tmpa}\Inc{primcount} \InitDet \theprimcount\ \ComplexXy. %\qquad%
+		\\[.5cm] \par
+%		\ifthenelse{\value{tmpa}<#2}{\Inc{tmpa}\Inc{primcount} \InitDet[4] \theprimcount \InvertSystem}{} \\[.5cm] \par%
+	 }%
+}
+
+\newcommand\SolveComplexXy[1]{%
+	\ifthenelse{\equal{#1}{O}}{%
+		\setcounter{detcc}{\value{detaa} / 2}%
+		$$%
+			\ComplexXy = e^{\IfNegate{detaa}{}{-}\ifthenelse{\isodd{\value{detaa}}}{\frac{\arabic{detaa}\pi}{2}}{\arabic{detcc}\pi}}\left(\cos(\arabic{detaa}\ln\arabic{detab}) + i \sin(\arabic{detaa}\ln\arabic{detab})\right).%
+		$$%
+	}{%
+	}%
+}
+
+\newcommand\MultiSolveComplexXy[3][\time]{%
+	\reinitrand[seed=#1, first=-9, last=9]%
+	\ToNull{tmpa}%
+	\whiledo{\value{tmpa}<#2}{%
+		\Inc{tmpa}\Inc{primcount}\theprimcount\ \InitDet \SolveComplexXy{#3} \par%\\[.5cm] \par%
+	 }%
+}
+

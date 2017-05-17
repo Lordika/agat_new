@@ -1,0 +1,31 @@
+﻿% Набор команд для работы со счётчиками
+\newcommand{\Inc}[1]{\addtocounter{#1}{1}}
+\newcommand{\Dec}[1]{\addtocounter{#1}{-1}}
+\newcommand{\TripleMulti}[4]{\setcounter{#1}{\value{#2}*\value{#3}*\value{#4}}}
+\newcommand{\Multi}[3]{\setcounter{#1}{\value{#2}*\value{#3}}}
+\newcommand{\ToNull}[1]{\setcounter{#1}{0}}
+\newcommand{\Move}[2]{\setcounter{#1}{\value{#2}}}
+\newcommand{\Ipp}[2]{\addtocounter{#1}{\value{#2}}}
+\newcommand{\Imm}[2]{\addtocounter{#1}{-\value{#2}}}
+\newcommand{\Swap}[2]{\Move{temp}{#1}\Move{#1}{#2}\Move{#2}{temp}}
+\newcommand{\Inverse}[1]{\setcounter{#1}{-\value{#1}}}
+
+%Проверка на ноль
+\newcommand\IfNull[3]{%
+	\ifthenelse{\value{#1}=0}{#2}{#3}%
+}
+
+%Проверка на отрицательность
+\newcommand\IfNegate[3]{%
+	\ifthenelse{\value{#1}<0}{#2}{#3}%
+}
+
+%Проверка на единицу
+\newcommand\IfOne[3]{%
+	\ifthenelse{\value{#1}=1}{#2}{#3}%
+}
+
+%Проверка на минус единицу
+\newcommand\IfNOne[3]{%
+	\ifthenelse{\value{#1}=-1}{#2}{#3}%
+}

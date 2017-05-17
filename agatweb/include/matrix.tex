@@ -1,0 +1,652 @@
+﻿
+% Счётчики для 3х3
+\newcounter{detaa}
+\newcounter{detab}
+\newcounter{detac}
+\newcounter{detba}
+\newcounter{detbb}
+\newcounter{detbc}
+\newcounter{detca}
+\newcounter{detcb}
+\newcounter{detcc}
+
+% Счётчики для 4х4
+\newcounter{detda}
+\newcounter{detdb}
+\newcounter{detdc}
+\newcounter{detdd}
+\newcounter{detad}
+\newcounter{detbd}
+\newcounter{detcd}
+\newcounter{torow}
+\newcounter{tocol}
+
+% Счётчики для 5х5
+\newcounter{detea}
+\newcounter{deteb}
+\newcounter{detec}
+\newcounter{deted}
+\newcounter{detee}
+\newcounter{detae}
+\newcounter{detbe}
+\newcounter{detce}
+\newcounter{detde}
+
+% Счётчики для 6х6
+\newcounter{detfa}
+\newcounter{detfb}
+\newcounter{detfc}
+\newcounter{detfd}
+\newcounter{detfe}
+\newcounter{detff}
+\newcounter{detaf}
+\newcounter{detbf}
+\newcounter{detcf}
+\newcounter{detdf}
+\newcounter{detef}
+
+% Счётчики для промежуточных вычислений
+\newcounter{dettmpa}
+\newcounter{dettmpb}
+\newcounter{dettmpc}
+
+% Счётчики для умножения матриц
+\newcounter{mataaa}
+\newcounter{mataab}
+\newcounter{mataac}
+\newcounter{mataad}
+\newcounter{mataba}
+\newcounter{matabb}
+\newcounter{matabc}
+\newcounter{matabd}
+\newcounter{mataca}
+\newcounter{matacb}
+\newcounter{matacc}
+\newcounter{matacd}
+\newcounter{matada}
+\newcounter{matadb}
+\newcounter{matadc}
+\newcounter{matadd}
+
+%	----------------------		Определение новых команд 		---------------------
+
+% Инициализация матрицы
+\newcommand{\InitDet}[1][3]{%
+	\ifcase #1 \of 
+	\or %
+		\rand\Move{detaa}{rand}%
+	\or\InitDet[1]%	
+		\rand\Move{detab}{rand}%
+		\rand\Move{detba}{rand}%
+		\rand\Move{detbb}{rand}%
+	\or\InitDet[2]%
+		\rand\Move{detac}{rand}%
+		\rand\Move{detbc}{rand}%
+		\rand\Move{detca}{rand}%
+		\rand\Move{detcb}{rand}%
+		\rand\Move{detcc}{rand}%
+	\or\InitDet[3]%
+		\rand\Move{detda}{rand}%
+		\rand\Move{detdb}{rand}%
+		\rand\Move{detdc}{rand}%
+		\rand\Move{detad}{rand}%
+		\rand\Move{detbd}{rand}%
+		\rand\Move{detcd}{rand}%
+		\rand\Move{detdd}{rand}%
+	\or\InitDet[4]%
+		\rand\Move{detae}{rand}%
+		\rand\Move{detbe}{rand}%
+		\rand\Move{detce}{rand}%
+		\rand\Move{detde}{rand}%
+		\rand\Move{detea}{rand}%
+		\rand\Move{deteb}{rand}%
+		\rand\Move{detec}{rand}%
+		\rand\Move{deted}{rand}%
+		\rand\Move{detee}{rand}%
+	\or\InitDet[5]%
+		\rand\Move{detaf}{rand}%
+		\rand\Move{detbf}{rand}%
+		\rand\Move{detcf}{rand}%
+		\rand\Move{detdf}{rand}%
+		\rand\Move{detef}{rand}%
+		\rand\Move{detff}{rand}%
+		\rand\Move{detfa}{rand}%
+		\rand\Move{detfb}{rand}%
+		\rand\Move{detfc}{rand}%
+		\rand\Move{detfd}{rand}%
+		\rand\Move{detfe}{rand}%
+	\fi%
+}
+
+\newcommand{\InitDetFive}{%
+	\rand\Move{detaa}{rand}%
+	\rand\Move{detab}{rand}%
+	\rand\Move{detac}{rand}%
+	\rand\Move{detad}{rand}%
+	\rand\Move{detae}{rand}%
+	\rand\Move{detba}{rand}%
+	\rand\Move{detbb}{rand}%
+	\rand\Move{detbc}{rand}%
+	\rand\Move{detbd}{rand}%
+	\rand\Move{detbe}{rand}%
+	\rand\Move{detca}{rand}%
+	\rand\Move{detcb}{rand}%
+	\rand\Move{detcc}{rand}%
+	\rand\Move{detcd}{rand}%
+	\rand\Move{detce}{rand}%
+	\rand\Move{detda}{rand}%
+	\rand\Move{detdb}{rand}%
+	\rand\Move{detdc}{rand}%
+	\rand\Move{detdd}{rand}%
+	\rand\Move{detde}{rand}%
+	\rand\Move{detea}{rand}%
+	\rand\Move{deteb}{rand}%
+	\rand\Move{detec}{rand}%
+	\rand\Move{deted}{rand}%
+	\rand\Move{detee}{rand}%
+}
+
+% Вывод на экран определителя 2х2
+\newcommand{\DetTwo}{\ensuremath{\D \left| \begin{array}{rr} \arabic{detaa} & \arabic{detab} \\ \arabic{detba} & \arabic{detbb} \end{array} \right|}}
+
+% Вывод заданного количества определителей 2х2. Можно указать число, для генерации конкретных вариантов.
+\newcommand{\MultiDetTwo}[2][\time]{%
+	\reinitrand[seed=#1, first=-9, last=9]%
+	\ToNull{tmpa}%
+	\whiledo{\value{tmpa}<#2}{%
+		\Inc{tmpa}\Example{\InitDet\DetTwo.}{}%
+%		\ifthenelse{\value{tmpa}<#2}{\Inc{tmpa}\Example{\InitDet\DetTwo.}{}}{}%
+	 }%
+}
+
+% Вывод решения определителя 3х3
+\newcommand{\SolveDetTwo}[2][0]{%	
+	\ToNull{dettmpb}%
+	\ensuremath{%
+		\DetTwo \ifthenelse{\equal{#2}{S}}{ = %
+			\ifthenelse{\equal{#1}{0}}{}{-1 \cdot(}%
+			\alg{detaa} \cdot \alg{detbb} - \alg{detab} \cdot \alg{detba}%
+			\ifthenelse{\equal{#1}{0}}{=}{) = -1 \cdot(}
+		}{}%
+		\Multi{dettmpa}{detaa}{detbb}\Ipp{dettmpb}{dettmpa}\ifthenelse{\equal{#2}{S}}{\alg{dettmpa} - }{}%
+		\Multi{dettmpa}{detab}{detba}\Imm{dettmpb}{dettmpa}\ifthenelse{\equal{#2}{S}}{\alg{dettmpa}}{} %
+		= \ifthenelse{\equal{#2}{S}}{\ifthenelse{\equal{#1}{0}}{}{)}}{} %
+		\ifthenelse{\equal{#1}{0}}{}{\setcounter{dettmpb}{-\value{dettmpb}}}\thedettmpb.%
+	}%
+}
+
+% Вывод заданного количества решений определителей 3х3. Можно указать число, для генерации конкретных вариантов.
+\newcommand{\MultiSolveDetTwo}[3][\time]{%
+	\reinitrand[seed=#1, first=-9, last=9]%
+	\ToNull{tmpa}%
+	\whiledo{\value{tmpa}<#2}{%
+		\Inc{tmpa}\Example{\InitDet\SolveDetTwo{#3}}{}%
+%		\ifthenelse{\value{tmpa}<#2}{\Inc{tmpa}\Inc{primcount}\InitDet\theprimcount\ \SolveDetTwo{#3}}{} \BigPar%
+	}%
+}
+
+% Вывод на экран определителя 3х3
+\newcommand{\DetThree}{\ensuremath{\D \left| \PrintMatrix{3} \right|}}
+
+% Вывод заданного количества определителей 3х3. Можно указать число, для генерации конкретных вариантов.
+\newcommand{\MultiDetThree}[2][\time]{%
+	\reinitrand[seed=#1, first=-9, last=9]%
+	\ToNull{tmpa}%
+	\whiledo{\value{tmpa}<#2}{%
+		\Inc{tmpa}\Example{\InitDet\DetThree.}{}%
+%		\ifthenelse{\value{tmpa}<#2}{\Inc{tmpa}\Inc{primcount}\InitDet\theprimcount\ \DetThree.}{} \BigPar%%
+	 }%
+}
+
+% Вывод решения определителя 3х3
+\newcommand{\SolveDetThree}[2][0]{%	
+	\ToNull{dettmpb}%
+	\ensuremath{%
+		\DetThree \ifthenelse{\equal{#2}{S}}{ = %
+			\ifthenelse{\equal{#1}{0}}{}{-1 \cdot(}\alg{detaa} \cdot \alg{detbb} \cdot \alg{detcc} + %
+			\alg{detab} \cdot \alg{detbc} \cdot \alg{detca} + %
+			\alg{detba} \cdot \alg{detcb} \cdot \alg{detac} - %
+			\alg{detac} \cdot \alg{detbb} \cdot \alg{detca} - %
+			\alg{detaa} \cdot \alg{detbc} \cdot \alg{detcb} - %
+			\alg{detab} \cdot \alg{detba} \cdot \alg{detcc} %
+			\ifthenelse{\equal{#1}{0}}{=}{) = -1 \cdot(}%
+		}{}%
+			\TripleMulti{dettmpa}{detaa}{detbb}{detcc}\Ipp{dettmpb}{dettmpa}\ifthenelse{\equal{#2}{S}}{\alg{dettmpa} + }{}%
+			\TripleMulti{dettmpa}{detab}{detbc}{detca}\Ipp{dettmpb}{dettmpa}\ifthenelse{\equal{#2}{S}}{\alg{dettmpa} + }{}%
+			\TripleMulti{dettmpa}{detba}{detcb}{detac}\Ipp{dettmpb}{dettmpa}\ifthenelse{\equal{#2}{S}}{\alg{dettmpa} - }{}%
+			\TripleMulti{dettmpa}{detac}{detbb}{detca}\Imm{dettmpb}{dettmpa}\ifthenelse{\equal{#2}{S}}{\alg{dettmpa} - }{}%
+			\TripleMulti{dettmpa}{detaa}{detbc}{detcb}\Imm{dettmpb}{dettmpa}\ifthenelse{\equal{#2}{S}}{\alg{dettmpa} - }{}%
+			\TripleMulti{dettmpa}{detab}{detba}{detcc}\Imm{dettmpb}{dettmpa}\ifthenelse{\equal{#2}{S}}{\alg{dettmpa} }{}%
+			\ifthenelse{\equal{#2}{S}}{\ifthenelse{\equal{#1}{0}}{}{)}}{} = %
+			\ifthenelse{\equal{#1}{0}}{}{\setcounter{dettmpb}{-\value{dettmpb}}}\thedettmpb.%
+	}%
+}
+
+% Вывод заданного количества решений определителей 3х3. Можно указать число, для генерации конкретных вариантов.
+\newcommand{\MultiSolveDetThree}[3][\time]{%
+	\reinitrand[seed=#1, first=-9, last=9]%
+	\ToNull{tmpa}%
+	\whiledo{\value{tmpa}<#2}{%
+		\Inc{tmpa}\Example{\InitDet\SolveDetThree{#3}}{}%
+%		\ifthenelse{\value{tmpa}<#2}{\Inc{tmpa}\Inc{primcount}\InitDet\theprimcount\ \SolveDetThree{#3}}{} \\BigPar%%
+	 }%
+}
+
+% Вывод на экран определителя 4х4
+\newcommand{\DetFour}{\ensuremath{\D \left| \begin{array}{rrrr} \arabic{detaa} & \arabic{detab} & \arabic{detac} & \arabic{detad} \\ \arabic{detba} & \arabic{detbb} & \arabic{detbc} & \arabic{detbd} \\ \arabic{detca} & \arabic{detcb} & \arabic{detcc} & \arabic{detcd} \\ \arabic{detda} & \arabic{detdb} & \arabic{detdc} & \arabic{detdd} \end{array} \right|}}
+
+% Вывод заданного количества определителей 4х4. Можно указать число, для генерации конкретных вариантов.
+\newcommand{\MultiDetFour}[2][\time]{%
+	\reinitrand[seed=#1, first=-9, last=9]%
+	\ToNull{tmpa}%
+	\whiledo{\value{tmpa}<#2}{%
+		\Inc{tmpa}\Example{\InitDet[4]\setcounter{detdd}{1}\SwapRow{2}\SwapCol{1}\DetFour.}{}%
+%		\ifthenelse{\value{tmpa}<#2}{\Inc{tmpa}\Inc{primcount}\InitDet[4]\setcounter{detdd}{1}\SwapRow{2}\SwapCol{1}\theprimcount\ \DetFour.}{} \BigPar%
+	 }%
+}
+
+% Обмен какой-либо строки с последней строкой
+\newcommand{\SwapRow}[1]{%
+	\ifcase #1 \of \or \Swap{detaa}{detda}\Swap{detab}{detdb}\Swap{detac}{detdc}\Swap{detad}{detdd} \or \Swap{detba}{detda}\Swap{detbb}{detdb}\Swap{detbc}{detdc}\Swap{detbd}{detdd} \or \Swap{detca}{detda}\Swap{detcb}{detdb}\Swap{detcc}{detdc}\Swap{detcd}{detdd} \fi%
+}
+
+% Обмен какого-либо столбца с последним столбцом
+\newcommand{\SwapCol}[1]{%
+	\ifcase #1 \of \or \Swap{detaa}{detad}\Swap{detba}{detbd}\Swap{detca}{detcd}\Swap{detda}{detdd} \or \Swap{detab}{detad}\Swap{detbb}{detbd}\Swap{detcb}{detcd}\Swap{detdb}{detdd} \or \Swap{detac}{detad}\Swap{detbc}{detbd}\Swap{detcc}{detcd}\Swap{detdc}{detdd} \fi%
+}
+
+% Вывод решения определителя 4х4
+\newcommand{\SolveDetFour}[3]{%	
+	\ToNull{dettmpb}%
+	\ensuremath{%
+		\DetFour \D \ifthenelse{\equal{#3}{S}}{\Suggestion{#1}{#2}}{} \ModifyDet{#1}{#2} \ifthenelse{\equal{#3}{S}}{\Longrightarrow \DetFour}{} \ToDefault{#1}{#2} = } %
+	\ifthenelse{\equal{#3}{S}}{ \\%
+		\ensuremath{% 
+	  		 = \ifthenelse{\(\isodd{#1} \and \isodd{#2}\) \or \(\not\isodd{#1} \and \not\isodd{#2}\)}{1 \cdot \SolveDetThree{#3}}{-1 \cdot \SolveDetThree[1]{#3}}  %
+		}%
+	}{\ensuremath{\vphantom{\ifthenelse{\(\isodd{#1} \and \isodd{#2}\) \or \(\not\isodd{#1} \and \not\isodd{#2}\)}{1 \cdot \SolveDetThree{#3}}{-1 \cdot \SolveDetThree[1]{#3}}}} \thedettmpb.}%
+}
+
+% Вывод заданного количества решений определителей 4х4. Можно указать число, для генерации конкретных вариантов.
+\newcommand{\MultiSolveDetFour}[3][\time]{%
+	\reinitrand[seed=#1, first=-9, last=9]%
+	\ToNull{tmpa}%
+	\whiledo{\value{tmpa}<#2}{%
+		\Inc{tmpa}\Example{\InitDet[4]\setcounter{detdd}{1}\GetNum{torow}{tocol}\SwapRow{\arabic{torow}}\SwapCol{\arabic{tocol}}\SolveDetFour{\arabic{torow}}{\arabic{tocol}}{#3}}{}%
+	 }%
+}
+
+% Получение индексов переноса 1
+\newcommand{\GetNum}[2]{%
+	\ifthenelse{\isodd{\value{detac}} \and \isodd{\value{detbb}}}{\setcounter{#1}{1}}{}%
+	\ifthenelse{\isodd{\value{detac}} \and \not\isodd{\value{detbb}}}{\setcounter{#1}{2}}{}%
+	\ifthenelse{\not\isodd{\value{detac}} \and \isodd{\value{detbb}}}{\setcounter{#1}{3}}{}%
+	\ifthenelse{\not\isodd{\value{detac}} \and \not\isodd{\value{detbb}}}{\setcounter{#1}{4}}{}%
+	\ifthenelse{\isodd{\value{detbc}} \and \isodd{\value{detab}}}{\setcounter{#2}{1}}{}%
+	\ifthenelse{\isodd{\value{detbc}} \and \not\isodd{\value{detab}}}{\setcounter{#2}{2}}{}%
+	\ifthenelse{\not\isodd{\value{detbc}} \and \isodd{\value{detab}}}{\setcounter{#2}{3}}{}%
+	\ifthenelse{\not\isodd{\value{detbc}} \and \not\isodd{\value{detab}}}{\setcounter{#2}{4}}{}%
+%\setcounter{#1}{2}\setcounter{#2}{1}
+}
+
+% Предложение по приведению к 3х3
+\newcommand{\Suggestion}[2]{%
+	\ensuremath{%
+		\begin{array}{l}%
+			\SuggestLine{#1}{#2}{1} \\
+			\SuggestLine{#1}{#2}{2} \\
+			\SuggestLine{#1}{#2}{3} \\
+			\SuggestLine{#1}{#2}{4}
+		\end{array}%
+	}%
+}
+
+\newcommand{\SuggestLine}[3]{%
+			\ifthenelse{\equal{#1}{#3}}{}{\gamma_{#3} - \GetCell{#3}{#2}{dettmpb}\alg{dettmpb} \cdot \gamma_{#1}}%
+}
+
+% Получение значения по номеру
+\newcommand{\GetCell}[3]{%
+	\ifcase #1 \of %
+		\or\ifcase #2 \of \or\Move{#3}{detaa} \or\Move{#3}{detab} \or\Move{#3}{detac} \or\Move{#3}{detad} \fi%
+		\or\ifcase #2 \of \or\Move{#3}{detba} \or\Move{#3}{detbb} \or\Move{#3}{detbc} \or\Move{#3}{detbd} \fi%
+		\or\ifcase #2 \of \or\Move{#3}{detca} \or\Move{#3}{detcb} \or\Move{#3}{detcc} \or\Move{#3}{detcd} \fi%
+		\or\ifcase #2 \of \or\Move{#3}{detda} \or\Move{#3}{detdb} \or\Move{#3}{detdc} \or\Move{#3}{detdd} \fi%
+	\fi%
+}
+
+% Получение нулей в 4х4
+\newcommand{\ModifyDet}[2]{%	
+	\ToNull{tmpb}	
+	\whiledo{\value{tmpb}<4}{%
+		\Inc{tmpb} \GetCell{\arabic{tmpb}}{#2}{dettmpc} \SubRow{\arabic{tmpb}}{#1}{dettmpc}%
+	}%
+}
+
+% Вычитание строк
+\newcommand{\SubRow}[3]{%
+	\ifcase #1 \of %
+		\or\ifcase #2 \of %
+			\or%
+			\or \setcounter{detaa}{\value{detaa}-\value{detba}*\value{#3}}%
+				\setcounter{detab}{\value{detab}-\value{detbb}*\value{#3}}%
+				\setcounter{detac}{\value{detac}-\value{detbc}*\value{#3}}%
+				\setcounter{detad}{\value{detad}-\value{detbd}*\value{#3}}%
+			\or \setcounter{detaa}{\value{detaa}-\value{detca}*\value{#3}}%
+				\setcounter{detab}{\value{detab}-\value{detcb}*\value{#3}}%
+				\setcounter{detac}{\value{detac}-\value{detcc}*\value{#3}}%
+				\setcounter{detad}{\value{detad}-\value{detcd}*\value{#3}}%
+			\or \setcounter{detaa}{\value{detaa}-\value{detda}*\value{#3}}%
+				\setcounter{detab}{\value{detab}-\value{detdb}*\value{#3}}%
+				\setcounter{detac}{\value{detac}-\value{detdc}*\value{#3}}%
+				\setcounter{detad}{\value{detad}-\value{detdd}*\value{#3}}%
+			\fi%
+		\or\ifcase #2 \of %
+			\or \setcounter{detba}{\value{detba}-\value{detaa}*\value{#3}}%
+				\setcounter{detbb}{\value{detbb}-\value{detab}*\value{#3}}%
+				\setcounter{detbc}{\value{detbc}-\value{detac}*\value{#3}}%
+				\setcounter{detbd}{\value{detbd}-\value{detad}*\value{#3}}%
+			\or %
+			\or \setcounter{detba}{\value{detba}-\value{detca}*\value{#3}}%
+				\setcounter{detbb}{\value{detbb}-\value{detcb}*\value{#3}}%
+				\setcounter{detbc}{\value{detbc}-\value{detcc}*\value{#3}}%
+				\setcounter{detbd}{\value{detbd}-\value{detcd}*\value{#3}}%
+			\or \setcounter{detba}{\value{detba}-\value{detda}*\value{#3}}%
+				\setcounter{detbb}{\value{detbb}-\value{detdb}*\value{#3}}%
+				\setcounter{detbc}{\value{detbc}-\value{detdc}*\value{#3}}%
+				\setcounter{detbd}{\value{detbd}-\value{detdd}*\value{#3}}%
+			\fi%
+		\or\ifcase #2 \of %
+			\or \setcounter{detca}{\value{detca}-\value{detaa}*\value{#3}}%
+				\setcounter{detcb}{\value{detcb}-\value{detab}*\value{#3}}%
+				\setcounter{detcc}{\value{detcc}-\value{detac}*\value{#3}}%
+				\setcounter{detcd}{\value{detcd}-\value{detad}*\value{#3}}%
+			\or \setcounter{detca}{\value{detca}-\value{detba}*\value{#3}}%
+				\setcounter{detcb}{\value{detcb}-\value{detbb}*\value{#3}}%
+				\setcounter{detcc}{\value{detcc}-\value{detbc}*\value{#3}}%
+				\setcounter{detcd}{\value{detcd}-\value{detbd}*\value{#3}}%
+			\or %
+			\or \setcounter{detca}{\value{detca}-\value{detda}*\value{#3}}%
+				\setcounter{detcb}{\value{detcb}-\value{detdb}*\value{#3}}%
+				\setcounter{detcc}{\value{detcc}-\value{detdc}*\value{#3}}%
+				\setcounter{detcd}{\value{detcd}-\value{detdd}*\value{#3}}%
+			\fi%
+		\or\ifcase #2 \of %
+			\or \setcounter{detda}{\value{detda}-\value{detaa}*\value{#3}}%
+				\setcounter{detdb}{\value{detdb}-\value{detab}*\value{#3}}%
+				\setcounter{detdc}{\value{detdc}-\value{detac}*\value{#3}}%
+				\setcounter{detdd}{\value{detdd}-\value{detad}*\value{#3}}%
+			\or \setcounter{detda}{\value{detda}-\value{detba}*\value{#3}}%
+				\setcounter{detdb}{\value{detdb}-\value{detbb}*\value{#3}}%
+				\setcounter{detdc}{\value{detdc}-\value{detbc}*\value{#3}}%
+				\setcounter{detdd}{\value{detdd}-\value{detbd}*\value{#3}}%
+			\or \setcounter{detda}{\value{detda}-\value{detca}*\value{#3}}%
+				\setcounter{detdb}{\value{detdb}-\value{detcb}*\value{#3}}%
+				\setcounter{detdc}{\value{detdc}-\value{detcc}*\value{#3}}%
+				\setcounter{detdd}{\value{detdd}-\value{detcd}*\value{#3}}%
+			\or %
+			\fi%
+	\fi%
+}
+
+% Переход от 4х4 к 3х3
+\newcommand{\ToDefault}[2]{%
+	\ifcase #2 \of %
+		\or \Move{temp}{detaa}\Move{detaa}{detab}\Move{detab}{detac}\Move{detac}{detad}\Move{detad}{temp} %
+			\Move{temp}{detba}\Move{detba}{detbb}\Move{detbb}{detbc}\Move{detbc}{detbd}\Move{detbd}{temp} %
+			\Move{temp}{detca}\Move{detca}{detcb}\Move{detcb}{detcc}\Move{detcc}{detcd}\Move{detcd}{temp} %
+			\Move{temp}{detda}\Move{detda}{detdb}\Move{detdb}{detdc}\Move{detdc}{detdd}\Move{detdd}{temp} %
+		\or \Move{temp}{detab}\Move{detab}{detac}\Move{detac}{detad}\Move{detad}{temp} %
+			\Move{temp}{detbb}\Move{detbb}{detbc}\Move{detbc}{detbd}\Move{detbd}{temp} %
+			\Move{temp}{detcb}\Move{detcb}{detcc}\Move{detcc}{detcd}\Move{detcd}{temp} %
+			\Move{temp}{detdb}\Move{detdb}{detdc}\Move{detdc}{detdd}\Move{detdd}{temp} %
+		\or \Move{temp}{detac}\Move{detac}{detad}\Move{detad}{temp} %
+			\Move{temp}{detbc}\Move{detbc}{detbd}\Move{detbd}{temp} %
+			\Move{temp}{detcc}\Move{detcc}{detcd}\Move{detcd}{temp} %
+			\Move{temp}{detdc}\Move{detdc}{detdd}\Move{detdd}{temp} %
+		\or \Move{temp}{detad}\Move{detad}{temp} %
+			\Move{temp}{detbd}\Move{detbd}{temp} %
+			\Move{temp}{detcd}\Move{detcd}{temp} %
+			\Move{temp}{detdd}\Move{detdd}{temp} %
+	\fi%
+	\ifcase #1 \of %
+		\or \Move{temp}{detaa}\Move{detaa}{detba}\Move{detba}{detca}\Move{detca}{detda}\Move{detda}{temp} %
+			\Move{temp}{detab}\Move{detab}{detbb}\Move{detbb}{detcb}\Move{detcb}{detdb}\Move{detdb}{temp} %
+			\Move{temp}{detac}\Move{detac}{detbc}\Move{detbc}{detcc}\Move{detcc}{detdc}\Move{detdc}{temp} %
+			\Move{temp}{detad}\Move{detad}{detbd}\Move{detbd}{detcd}\Move{detcd}{detdd}\Move{detdd}{temp} %
+		\or \Move{temp}{detba}\Move{detba}{detca}\Move{detca}{detda}\Move{detda}{temp} %
+			\Move{temp}{detbb}\Move{detbb}{detcb}\Move{detcb}{detdb}\Move{detdb}{temp} %
+			\Move{temp}{detbc}\Move{detbc}{detcc}\Move{detcc}{detdc}\Move{detdc}{temp} %
+			\Move{temp}{detbd}\Move{detbd}{detcd}\Move{detcd}{detdd}\Move{detdd}{temp} %
+		\or \Move{temp}{detca}\Move{detca}{detda}\Move{detda}{temp} %
+			\Move{temp}{detcb}\Move{detcb}{detdb}\Move{detdb}{temp} %
+			\Move{temp}{detcc}\Move{detcc}{detdc}\Move{detdc}{temp} %
+			\Move{temp}{detcd}\Move{detcd}{detdd}\Move{detdd}{temp} %
+		\or \Move{temp}{detda}\Move{detda}{temp} %
+			\Move{temp}{detdb}\Move{detdb}{temp} %
+			\Move{temp}{detdc}\Move{detdc}{temp} %
+			\Move{temp}{detdd}\Move{detdd}{temp} %
+	\fi%
+} 
+
+%	Решение ситемы 3x3 методом Крамера
+\newcommand\Kramer{%
+	\ensuremath{%
+		\D\begin{cases} %
+			\ToNull{detad}%
+			\ToNull{detbd}%
+			\ToNull{detcd}%
+			\Multi{dettmpa}{detaa}{detda}\Ipp{detad}{dettmpa}%
+			\Multi{dettmpa}{detab}{detdb}\Ipp{detad}{dettmpa}%
+			\Multi{dettmpa}{detac}{detdc}\Ipp{detad}{dettmpa}%
+			\SmartPrintValue[0]{detaa} \IfNull{detaa}{}{x} \SmartPrintValue{detab} \IfNull{detab}{}{y} \SmartPrintValue{detac} \IfNull{detac}{}{z} = \arabic{detad} \\%
+			\Multi{dettmpa}{detba}{detda}\Ipp{detbd}{dettmpa}%
+			\Multi{dettmpa}{detbb}{detdb}\Ipp{detbd}{dettmpa}%
+			\Multi{dettmpa}{detbc}{detdc}\Ipp{detbd}{dettmpa}%
+			\SmartPrintValue[0]{detba} \IfNull{detba}{}{x} \SmartPrintValue{detbb} \IfNull{detbb}{}{y} \SmartPrintValue{detbc} \IfNull{detbc}{}{z} = \arabic{detbd} \\%
+			\Multi{dettmpa}{detca}{detda}\Ipp{detcd}{dettmpa}%
+			\Multi{dettmpa}{detcb}{detdb}\Ipp{detcd}{dettmpa}%
+			\Multi{dettmpa}{detcc}{detdc}\Ipp{detcd}{dettmpa}%
+			\SmartPrintValue[0]{detca} \IfNull{detca}{}{x} \SmartPrintValue{detcb} \IfNull{detcb}{}{y} \SmartPrintValue{detcc} \IfNull{detcc}{}{z} = \arabic{detcd} \\%
+		\end{cases}%
+	}%
+}
+
+% Вывод заданного количества систем 3х3. Можно указать число, для генерации конкретных вариантов.
+\newcommand{\MultiKramer}[2][\time]{%
+	\reinitrand[seed=#1, first=-9, last=9]%
+	\ToNull{tmpa}%
+	\whiledo{\value{tmpa}<#2}{%
+		\Inc{tmpa}\Example{\InitDet[4]\Kramer}{}%
+%		\ifthenelse{\value{tmpa}<#2}{\Inc{tmpa}\Inc{primcount}\InitDet[4]\theprimcount\ \Kramer}{} \BigPar%
+	 }%
+}
+
+% Решение системы 3х3 методом Крамера
+\newcommand\SolveKramer[1]{%
+	\ensuremath{%
+		\Kramer \Longrightarrow%
+	}
+	\ifthenelse{\equal{#1}{S}}{%
+		\ensuremath{%	
+			\Delta = \SolveDetThree{O} \Move{detdd}{dettmpb}%
+		}%
+		\ensuremath{%
+			\Swap{detaa}{detad}\Swap{detba}{detbd}\Swap{detca}{detcd} %
+			\Delta_x = \DetThree = \Multi{dettmpb}{detda}{detdd}\arabic{dettmpb} \qquad %
+			\Swap{detad}{detaa}\Swap{detbd}{detba}\Swap{detcd}{detca} %
+			\Swap{detab}{detad}\Swap{detbb}{detbd}\Swap{detcb}{detcd} %
+			\Delta_y = \DetThree = \Multi{dettmpb}{detdb}{detdd}\arabic{dettmpb}%
+		}%
+		\ensuremath{%
+			\Swap{detad}{detab}\Swap{detbd}{detbb}\Swap{detcd}{detcb} %
+			\Swap{detac}{detad}\Swap{detbc}{detbd}\Swap{detcc}{detcd} %
+			\Delta_z = \DetThree = \Multi{dettmpb}{detdc}{detdd}\arabic{dettmpb} \qquad %
+			\Swap{detad}{detac}\Swap{detbd}{detbc}\Swap{detcd}{detcc} %
+			\begin{cases} %
+				x = \Delta_x / \Delta = \arabic{detda} \\ %
+				y = \Delta_y / \Delta = \arabic{detdb} \\ %
+				z = \Delta_z / \Delta = \arabic{detdc} %
+			\end{cases} %
+		}%
+	}{%
+		\ensuremath{%
+			\begin{cases} %
+				x = \arabic{detda} \\ %
+				y = \arabic{detdb} \\ %
+				z = \arabic{detdc} %
+			\end{cases} %
+		}%
+	}%
+}
+
+% Много решений методом Крамера
+\newcommand{\MultiSolveKramer}[3][\time]{%
+	\reinitrand[seed=#1, first=-9, last=9]%
+	\ToNull{tmpa}%
+	\whiledo{\value{tmpa}<#2}{%
+		\Inc{tmpa}\Example{\InitDet[4]\SolveKramer{#3}}{}%
+	 }%
+}
+
+% Печать матрицы
+\newcommand\PrintMatrix[1]{%
+	\ifcase #1 \or \or \ensuremath{%
+		\begin{array}{rr}%
+			\arabic{detaa} & \arabic{detab} \\ %
+			\arabic{detba} & \arabic{detbb}%
+		\end{array}%
+	}%
+	\or \ensuremath{%
+		\begin{array}{rrr}%
+			\arabic{detaa} & \arabic{detab} & \arabic{detac}\\ %
+			\arabic{detba} & \arabic{detbb} & \arabic{detbc}\\ %
+			\arabic{detca} & \arabic{detcb} & \arabic{detcc}%
+		\end{array}%
+	}%
+	\or \ensuremath{%
+		\begin{array}{rrrr}%
+			\arabic{detaa} & \arabic{detab} & \arabic{detac} & \arabic{detad}\\ %
+			\arabic{detba} & \arabic{detbb} & \arabic{detbc} & \arabic{detbd}\\ %
+			\arabic{detca} & \arabic{detcb} & \arabic{detcc} & \arabic{detcd}\\ %
+			\arabic{detda} & \arabic{detdb} & \arabic{detdc} & \arabic{detdd} %
+		\end{array}%
+	}%
+	\or \ensuremath{%
+		\begin{array}{rrrrr}%
+			\arabic{detaa} & \arabic{detab} & \arabic{detac} & \arabic{detad} & \arabic{detae}\\ %
+			\arabic{detba} & \arabic{detbb} & \arabic{detbc} & \arabic{detbd} & \arabic{detbe}\\ %
+			\arabic{detca} & \arabic{detcb} & \arabic{detcc} & \arabic{detcd} & \arabic{detce}\\ %
+			\arabic{detda} & \arabic{detdb} & \arabic{detdc} & \arabic{detdd} & \arabic{detde}\\ %
+			\arabic{detea} & \arabic{deteb} & \arabic{detec} & \arabic{deted} & \arabic{detee} %
+		\end{array}%
+	}%
+	\fi
+}
+
+
+% Генерация обратной матрицы
+\newcommand\InvertMatrix[1]{
+	\ensuremath{\left(\PrintMatrix{#1}\right)^{-1}}%
+}
+
+% Много задач на обратную матрицу
+\newcommand{\MultiInvertMatrix}[3][\time]{%
+	\reinitrand[seed=#1, first=-9, last=9]%
+	\ToNull{tmpa}%
+	\whiledo{\value{tmpa}<#2}{%
+		\Inc{tmpa}\Example{\InitDet[#3]\InvertMatrix{#3}.}{}%
+%		\ifthenelse{\value{tmpa}<#2}{\Inc{tmpa}\Inc{primcount}\InitDet\theprimcount\ \InvertMatrix{#3}.}{} \BigPar%
+	 }%
+}
+
+% Транспонирование матрицы
+\newcommand\Transpose[1][3]{%
+	\Swap{detab}{detba}\Swap{detac}{detca}\Swap{detbc}{detcb}%
+	\ifthenelse{\equal{#1}{4}}{\Swap{detad}{detda}\Swap{detbd}{detdb}\Swap{detcd}{detdc}}{}%
+}
+
+% Нахождение обратной матрицы с помощью алгебраических дополнений
+\newcommand\SolveInvertMatrix[2]{%
+	\ensuremath{\InvertMatrix{#1}} = \ensuremath{\ifthenelse{\equal{#2}{S}}{\frac{\D 1}{\D \det}\times}{}}%
+	\ifcase #1 \or \or \ensuremath{%
+		\setcounter{dettmpb}{\value{detaa}*\value{detbb} - \value{detab}*\value{detba}}
+		\Swap{detaa}{detbb}\Swap{detab}{detba}\Inverse{detab}\Inverse{detba}%
+		\ifthenelse{\equal{#2}{S}}{\left(\PrintMatrix{2}\right)^{T} = }{}\Transpose %
+		\IfNegate{dettmpb}{-\Inverse{dettmpb}}{}%
+		\IfOne{dettmpb}{}{%
+			\D\frac{1}{\arabic{dettmpb}}\times%
+		}\left(\PrintMatrix{2}\right).
+	} \or \small{\ensuremath{%
+		\vphantom{\SolveDetThree{O}}\ifthenelse{\equal{#2}{S}}{
+			\begin{pmatrix}%
+			 \left| \begin{array}{rr} \arabic{detbb} & \arabic{detbc} \\ \arabic{detcb} & \arabic{detcc} \end{array}\right| &% 
+			-\left| \begin{array}{rr} \arabic{detba} & \arabic{detbc} \\ \arabic{detca} & \arabic{detcc} \end{array}\right| &% 
+			 \left| \begin{array}{rr} \arabic{detba} & \arabic{detbb} \\ \arabic{detca} & \arabic{detcb} \end{array}\right| \\% 
+			-\left| \begin{array}{rr} \arabic{detab} & \arabic{detac} \\ \arabic{detcb} & \arabic{detcc} \end{array}\right| &% 
+			 \left| \begin{array}{rr} \arabic{detaa} & \arabic{detac} \\ \arabic{detca} & \arabic{detcc} \end{array}\right| &% 
+			-\left| \begin{array}{rr} \arabic{detaa} & \arabic{detab} \\ \arabic{detca} & \arabic{detcb} \end{array}\right| \\% 
+			 \left| \begin{array}{rr} \arabic{detab} & \arabic{detac} \\ \arabic{detbb} & \arabic{detbc} \end{array}\right| &% 
+			-\left| \begin{array}{rr} \arabic{detaa} & \arabic{detac} \\ \arabic{detba} & \arabic{detbc} \end{array}\right| &% 
+			 \left| \begin{array}{rr} \arabic{detaa} & \arabic{detab} \\ \arabic{detba} & \arabic{detbb} \end{array}\right| % 
+		\end{pmatrix}^{T} = }{}%
+		\setcounter{mataaa}{ \value{detbb}*\value{detcc} - \value{detbc}*\value{detcb}}%
+		\setcounter{mataab}{-\value{detba}*\value{detcc} + \value{detbc}*\value{detca}}%
+		\setcounter{mataac}{ \value{detba}*\value{detcb} - \value{detbb}*\value{detca}}%
+		\setcounter{mataba}{-\value{detab}*\value{detcc} + \value{detac}*\value{detcb}}%
+		\setcounter{matabb}{ \value{detaa}*\value{detcc} - \value{detac}*\value{detca}}%
+		\setcounter{matabc}{-\value{detaa}*\value{detcb} + \value{detab}*\value{detca}}%
+		\setcounter{mataca}{ \value{detab}*\value{detbc} - \value{detac}*\value{detbb}}%
+		\setcounter{matacb}{-\value{detaa}*\value{detbc} + \value{detac}*\value{detba}}%
+		\setcounter{matacc}{ \value{detaa}*\value{detbb} - \value{detab}*\value{detba}}%
+		\Move{detaa}{mataaa}\Move{detab}{mataab}\Move{detac}{mataac}%
+		\Move{detba}{mataba}\Move{detbb}{matabb}\Move{detbc}{matabc}%
+		\Move{detca}{mataca}\Move{detcb}{matacb}\Move{detcc}{matacc}%
+		\ifthenelse{\equal{#2}{S}}{\frac{\D 1}{\D \arabic{dettmpb}}\times\left(\PrintMatrix{3}\right)^{T} =}{}%
+		\Transpose%
+		\IfNegate{dettmpb}{-\Inverse{dettmpb}}{}%
+		\IfOne{dettmpb}{}{%
+			\D\frac{1}{\arabic{dettmpb}}\times%
+		}\left(\PrintMatrix{3}\right).
+	}}\fi%
+}
+
+% Много решений обратной матрицы
+\newcommand\MultiSolveInvertMatrix[4][\time]{%
+	\reinitrand[seed=#1, first=-9, last=9]%
+	\ToNull{tmpa}%
+	\whiledo{\value{tmpa}<#2}{%
+		\Inc{tmpa}\Example{\InitDet[#3]\SolveInvertMatrix{#3}{#4}}{}%
+	 }%
+}
+
+% Система с обратной матрицей
+\newcommand\InvertSystem{%
+	\Kramer
+}
+
+% Много систем с обратной матрицей
+\newcommand\MultiInvertSystem[2][\time]{%
+	\reinitrand[seed=#1, first=-9, last=9]%
+	\ToNull{tmpa}%
+	\whiledo{\value{tmpa}<#2}{%
+		\Inc{tmpa}\Example{\InitDet[4]\InvertSystem}{}%
+%		\ifthenelse{\value{tmpa}<#2}{\Inc{tmpa}\Inc{primcount}\InitDet[4]\theprimcount\ \InvertSystem}{} \BigPar%
+	 }%
+}
+
+% Решение системы с обратной матрицей
+\newcommand\SolveInvertSystem[1]{%
+	\ifthenelse{\equal{#1}{O}}{\SolveKramer{#1}}{%
+		%
+	}%
+}
+
+% Много решений систем с обратной матрицей
+\newcommand\MultiSolveInvertSystem[3][\time]{%
+	\reinitrand[seed=#1, first=-9, last=9]%
+	\ToNull{tmpa}%
+	\whiledo{\value{tmpa}<#2}{%
+		\Inc{tmpa}\Example{\InitDet[4]\SolveInvertSystem{#3}}{}%
+	 }%
+}

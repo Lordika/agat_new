@@ -1,0 +1,11 @@
+.myside{
+    margin-left: 0;
+    padding-left: 0;
+}
+.myside li{
+    list-style-type: none; /* Убираем маркеры */
+}
+
+label.control-label{
+    display: none
+}

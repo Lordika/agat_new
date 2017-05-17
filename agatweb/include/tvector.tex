@@ -1,0 +1,538 @@
+﻿
+% Нахождение модуля вектора и направляющих косинусов
+\newcommand\VectorModule{%
+	\ensuremath{\vec{a} = \{\arabic{detaa},\, \arabic{detab}\},\quad \vec{b} = \{\arabic{detba},\, \arabic{detbb}\}, \quad \vec{c} = \arabic{detac}\vec{a}\IfNegate{detbc}{}{+} \arabic{detbc}\vec{b}}%
+}
+
+% Много векторов
+\newcommand\MultiVectorModule[2][\time]{%
+	\reinitrand[seed=#1, first=-9, last=9]%
+	\ToNull{tmpa}%
+	\whiledo{\value{tmpa}<#2}{%
+		\Inc{tmpa}\Example{\InitDet\VectorModule.}{}%
+%		\ifthenelse{\value{tmpa}<#2}{\Inc{tmpa}\Inc{primcount} \InitDet[4] \theprimcount \InvertSystem}{} \bigskip \par%
+	 }%
+}
+
+% Поиск модуля
+\newcommand\SolveVectorModule[1]{%
+	\ifthenelse{\equal{#1}{O}}{%
+		\setcounter{detca}{\value{detaa}*\value{detac} + \value{detba}*\value{detbc}}%
+		\setcounter{detcb}{\value{detab}*\value{detac} + \value{detbb}*\value{detbc}}%
+		\setcounter{detcc}{\value{detca}*\value{detca} + \value{detcb}*\value{detcb}}%
+		\VectorModule: $$|\vec{c}| = \sqrt{\arabic{detcc}}, \quad \cos\alpha = \frac{\arabic{detca}}{\sqrt{\arabic{detcc}}}, \quad \cos\beta = \frac{\arabic{detcb}}{\sqrt{\arabic{detcc}}}$$}{%
+	}%
+}
+
+% Много поисков модулей
+\newcommand\MultiSolveVectorModule[3][\time]{%
+	\reinitrand[seed=#1, first=-9, last=9]%
+	\ToNull{tmpa}%
+	\whiledo{\value{tmpa}<#2}{%
+		\Inc{tmpa}\Example{\InitDet\SolveVectorModule{#3}}{}%
+	 }%
+}
+
+% Показ градусов при генерации
+\newcommand\Degree[1]{%
+	\addtocounter{#1}{8}%
+	\ifcase \arabic{#1}%
+		-180\text{\textdegree}%
+		\or -150\text{\textdegree}%
+		\or -135\text{\textdegree}%
+		\or -120\text{\textdegree}% 
+		\or -90\text{\textdegree}%
+		\or -60\text{\textdegree}%
+		\or -45\text{\textdegree}% 
+		\or -30\text{\textdegree}%
+		\or 0\text{\textdegree}%
+		\or 30\text{\textdegree}% 
+		\or 45\text{\textdegree}%
+		\or 60\text{\textdegree}%
+		\or 90\text{\textdegree}% 
+		\or 120\text{\textdegree}%
+		\or 135\text{\textdegree}%
+		\or 150\text{\textdegree}% 
+		\or 180\text{\textdegree}%
+	\fi%
+	\addtocounter{#1}{-8}%
+}
+
+% Показ косинуса при генерации
+\newcommand\Cos[3]{%
+	\addtocounter{#1}{8}%
+	\ifcase \arabic{#1}%
+			\setcounter{#2}{-1}\setcounter{#3}{1}%
+		\or \setcounter{#2}{-2}\setcounter{#3}{3}%
+		\or \setcounter{#2}{-2}\setcounter{#3}{2}%
+		\or \setcounter{#2}{-2}\setcounter{#3}{1}% 
+		\or \setcounter{#2}{0}\setcounter{#3}{0}%
+		\or \setcounter{#2}{2}\setcounter{#3}{1}%
+		\or \setcounter{#2}{2}\setcounter{#3}{2}% 
+		\or \setcounter{#2}{2}\setcounter{#3}{3}%
+		\or \setcounter{#2}{1}\setcounter{#3}{1}%
+		\or \setcounter{#2}{2}\setcounter{#3}{3}% 
+		\or \setcounter{#2}{2}\setcounter{#3}{2}%
+		\or \setcounter{#2}{2}\setcounter{#3}{1}%
+		\or \setcounter{#2}{0}\setcounter{#3}{0}% 
+		\or \setcounter{#2}{-2}\setcounter{#3}{1}%
+		\or \setcounter{#2}{-2}\setcounter{#3}{2}%
+		\or \setcounter{#2}{-2}\setcounter{#3}{3}% 
+		\or \setcounter{#2}{-1}\setcounter{#3}{1}%
+	\fi%
+	\addtocounter{#1}{-8}%
+}
+
+% Числитель с корнем
+\newcommand\Chislitel[1]{%
+	\ifcase \arabic{#1}%
+		\or %
+		\or \sqrt{2}%
+		\or \sqrt{3}%
+	\fi%
+}
+
+% Нахождение скалярного произведения через модуль и угол 
+\newcommand\ScalarMA{%
+	\ensuremath{|\vec{a}| = \arabic{detaa},\quad |\vec{b}| = \arabic{detba}, \quad \alpha = \arabic{detab}, \quad \beta = \arabic{detbb}, \quad \varphi = \Degree{detac}}%
+}
+
+% Много задач на скалярное произведение через модуль и угол
+\newcommand\MultiScalarMA[2][\time]{%
+	\reinitrand[seed=#1, first=-8, last=8]%
+	\ToNull{tmpa}%
+	\whiledo{\value{tmpa}<#2}{%
+		\Inc{tmpa}\Example{\InitDet\ScalarMA.}{}%
+%		\ifthenelse{\value{tmpa}<#2}{\Inc{tmpa}\Inc{primcount} \InitDet[4] \theprimcount \InvertSystem}{} \bigskip \par%
+	 }%
+}
+
+% Решение задачи на скалярное произведение через модуль и угол
+\newcommand\SolveScalarMA[1]{%
+	\Cos{detac}{detbc}{detcc}
+	\ifthenelse{\equal{#1}{O}}{%
+		\setcounter{detca}{\value{detaa}*\value{detab}*\value{detba}*\value{detbb}}%
+		\ScalarMA: \ensuremath{%
+			(\alpha \vec{a},\, \beta \vec{b}) = \IfNull{detca}{0}{\setcounter{dettmpb}{\value{detbc}}\addtocounter{dettmpb}{2}% 
+			\ifcase \arabic{dettmpb}%
+					\IfNegate{detca}{\setcounter{detca}{-\value{detca}}}{-}%
+					\ifthenelse{\isodd{\value{detca}}}%
+						{\arabic{detca}\frac{\D\Chislitel{detcc}}{\D 2}}%
+						{\setcounter{detca}{\value{detca}/2}\arabic{detca}\Chislitel{detcc}}%
+				\or \setcounter{detca}{-\value{detca}}\arabic{detca}%
+				\or 0%
+				\or \arabic{detca}%
+				\or \IfNegate{detca}{-\setcounter{detca}{-\value{detca}}}{}\ifthenelse{\isodd{\value{detca}}}{\arabic{detca}\frac{\D\Chislitel{detcc}}{\D 2}}{\setcounter{detca}{\value{detca}/2}\arabic{detca}\Chislitel{detcc}}%
+			\fi}%
+		}%
+	}{}%
+}
+
+% Много решений задач на скалярное произведение через модуль и угол
+\newcommand\MultiSolveScalarMA[3][\time]{%
+	\reinitrand[seed=#1, first=-8, last=8]%
+	\ToNull{tmpa}%
+	\whiledo{\value{tmpa}<#2}{%
+		\Inc{tmpa}\Example{\InitDet\SolveScalarMA{#3}}{}%
+	 }%
+}
+
+% Нахождение скалярного произведения через координаты
+\newcommand\ScalarDC{%
+	\ensuremath{\vec{a} = \{\arabic{detaa},\, \arabic{detab},\, \arabic{detac}\},\quad \vec{b} = \{\arabic{detba},\, \arabic{detbb},\, \arabic{detbc}\}}%
+}
+
+% Много задач на скалярное произведение через координаты
+\newcommand\MultiScalarDC[2][\time]{%
+	\reinitrand[seed=#1, first=-9, last=9]%
+	\ToNull{tmpa}%
+	\whiledo{\value{tmpa}<#2}{%
+		\Inc{tmpa}\Example{\InitDet\ScalarDC.}{}%
+%		\ifthenelse{\value{tmpa}<#2}{\Inc{tmpa}\Inc{primcount} \InitDet[4] \theprimcount \InvertSystem}{} \bigskip \par%
+	 }%
+}
+
+% Решение задачи на скалярное произведение через координаты
+\newcommand\SolveScalarDC[1]{%
+	\ifthenelse{\equal{#1}{O}}{%
+		\setcounter{detca}{\value{detaa}*\value{detaa} + \value{detab}*\value{detab} + \value{detac}*\value{detac}}%
+		\setcounter{detcb}{\value{detba}*\value{detba} + \value{detbb}*\value{detbb} + \value{detbc}*\value{detbc}}%
+		\Multi{detca}{detca}{detcb}
+		\setcounter{detcc}{\value{detaa}*\value{detba} + \value{detab}*\value{detbb} + \value{detac}*\value{detbc}}%
+		\ScalarDC: \ensuremath{\cos\varphi = \frac{\D\arabic{detcc}}{\D\sqrt{\arabic{detca}}}}}{%
+	}%
+}
+
+% Много решений задач на скалярное произведение через координаты
+\newcommand\MultiSolveScalarDC[3][\time]{%
+	\reinitrand[seed=#1, first=-9, last=9]%
+	\ToNull{tmpa}%
+	\whiledo{\value{tmpa}<#2}{%
+		\Inc{tmpa}\Example{\InitDet\SolveScalarDC{#3}}{}%
+	 }%
+}
+
+% Нахождение проекции одного вектора на другой 
+\newcommand\VectorProjection{%
+	\ensuremath{\vec{a} = \{\arabic{detaa},\, \arabic{detab},\, \arabic{detac}\},\quad \vec{b} = \{\arabic{detba},\, \arabic{detbb},\, \arabic{detbc}\}}%
+}
+
+% Много задач на проекции векторов
+\newcommand\MultiVectorProjection[2][\time]{%
+	\reinitrand[seed=#1, first=-9, last=9]%
+	\ToNull{tmpa}%
+	\whiledo{\value{tmpa}<#2}{%
+		\Inc{tmpa}\Example{\InitDet\VectorProjection.}{}%
+%		\ifthenelse{\value{tmpa}<#2}{\Inc{tmpa}\Inc{primcount} \InitDet[4] \theprimcount \InvertSystem}{} \bigskip \par%
+	 }%
+}
+
+% Решение задачи на проекции векторов
+\newcommand\SolveVectorProjection[1]{%
+	\ifthenelse{\equal{#1}{O}}{%
+		\setcounter{detca}{\value{detaa}*\value{detaa} + \value{detab}*\value{detab} + \value{detac}*\value{detac}}%
+		\setcounter{detcc}{\value{detaa}*\value{detba} + \value{detab}*\value{detbb} + \value{detac}*\value{detbc}}%
+		\VectorProjection: \ensuremath{\text{пр}_{\vec{a}} \vec{b} = \frac{\D\arabic{detcc}}{\D\sqrt{\arabic{detca}}}}}{%
+	}%
+}
+
+% Много решений задач на проекции векторов
+\newcommand\MultiSolveVectorProjection[3][\time]{%
+	\reinitrand[seed=#1, first=-9, last=9]%
+	\ToNull{tmpa}%
+	\whiledo{\value{tmpa}<#2}{%
+		\Inc{tmpa}\Example{\InitDet\SolveVectorProjection{#3}}{}%
+	 }%
+}
+
+% Нахождение проекций треугольника
+\newcommand\TriangleProjection{%
+	\ensuremath{A = (\arabic{detaa},\, \arabic{detab}),\quad B = (\arabic{detba},\, \arabic{detbb}),\quad C = (\arabic{detca},\, \arabic{detcb})}%
+}
+
+% Много задач на проекции треугольника
+\newcommand\MultiTriangleProjection[2][\time]{%
+	\reinitrand[seed=#1, first=-9, last=9]%
+	\ToNull{tmpa}%
+	\whiledo{\value{tmpa}<#2}{%
+		\Inc{tmpa}\Example{\InitDet[4]\TriangleProjection.}{}%
+%		\ifthenelse{\value{tmpa}<#2}{\Inc{tmpa}\Inc{primcount} \InitDet[4] \theprimcount \InvertSystem}{} \bigskip \par%
+	 }%
+}
+
+% Решение задачи на проекции треугольника
+\newcommand\SolveTriangleProjection[1]{%
+	\ifthenelse{\equal{#1}{O}}{%
+		\setcounter{detac}{\value{detca}-\value{detaa}}%
+		\setcounter{detad}{\value{detcb}-\value{detab}}%
+		\setcounter{detbc}{\value{detba}-\value{detca}}%
+		\setcounter{detbd}{\value{detbb}-\value{detcb}}%
+		\setcounter{detcc}{\value{detaa}-\value{detba}}%
+		\setcounter{detcd}{\value{detab}-\value{detbb}}%
+		\setcounter{detda}{\value{detac}*\value{detac} + \value{detad}*\value{detad}}%
+		\setcounter{detdb}{\value{detbc}*\value{detbc} + \value{detbd}*\value{detbd}}%
+		\setcounter{detdc}{\value{detcc}*\value{detcc} + \value{detcd}*\value{detcd}}%
+		\TriangleProjection:%
+		\setcounter{detdd}{\value{detac}*\value{detbc} + \value{detad}*\value{detbd}}%
+		$$\text{пр}_{CB} AC  = \frac{\arabic{detdd}}{\sqrt{\arabic{detdb}}}%
+		\setcounter{detdd}{\value{detcc}*\value{detbc} + \value{detcd}*\value{detbd}}%
+		\quad \text{пр}_{BA} CB  = \frac{\arabic{detdd}}{\sqrt{\arabic{detdc}}}%
+		\setcounter{detdd}{\value{detcc}*\value{detac} + \value{detcd}*\value{detad}}%
+		\quad \text{пр}_{AC} BA  = \frac{\arabic{detdd}}{\sqrt{\arabic{detda}}}$$}{%
+	}%
+}
+
+% Много решений задач на проекции треугольника
+\newcommand\MultiSolveTriangleProjection[3][\time]{%
+	\reinitrand[seed=#1, first=-9, last=9]%
+	\ToNull{tmpa}%
+	\whiledo{\value{tmpa}<#2}{%
+		\Inc{tmpa}\Example{\InitDet[4]\SolveTriangleProjection{#3}}{}%
+	 }%
+}
+
+\newcommand\VectorMultiply{%
+	\ensuremath{\vec a = {\{\arabic{detaa},\, \arabic{detab},\, \arabic{detac}\}},\quad%
+				\vec b = {\{\arabic{detba},\, \arabic{detbb},\, \arabic{detbc}\}}%
+	}%
+}
+
+% Много задач на векторное произведение
+\newcommand\MultiVectorMultiply[2][\time]{%
+	\reinitrand[seed=#1, first=-9, last=9]%
+	\ToNull{tmpa}%
+	\whiledo{\value{tmpa}<#2}{%
+		\Inc{tmpa}\Example{\InitDet\VectorMultiply.}{}%
+%		\ifthenelse{\value{tmpa}<#2}{\Inc{tmpa}\Inc{primcount} \InitDet[4] \theprimcount \InvertSystem}{} \bigskip \par%
+	 }%
+}
+
+% Решение задачи на векторное произведение
+\newcommand\SolveVectorMultiply[1]{%
+	\ifthenelse{\equal{#1}{O}}{%
+		\setcounter{detca}{\value{detab}*\value{detbc}-\value{detac}*\value{detbb}}%
+		\setcounter{detcb}{\value{detac}*\value{detba}-\value{detaa}*\value{detbc}}%
+		\setcounter{detcc}{\value{detaa}*\value{detbb}-\value{detba}*\value{detab}}%
+%		\setcounter{dettmpb}{\value{detca}*\value{detca} + \value{detcb}*\value{detcb} + \value{detcc}*\value{detcc}}%
+		\VectorMultiply:%
+		$$[\vec a, \vec b] = \{\arabic{detca},\, \arabic{detcb},\, \arabic{detcc}\}.$$%
+	}{}%
+}
+
+% Много решений задач на векторное произведение
+\newcommand\MultiSolveVectorMultiply[3][\time]{%
+	\reinitrand[seed=#1, first=-9, last=9]%
+	\ToNull{tmpa}%
+	\whiledo{\value{tmpa}<#2}{%
+		\Inc{tmpa}\Example{\InitDet\SolveVectorMultiply{#3}}{}%
+	 }%
+}
+
+\newcommand\ScalarVectorMultiply{%
+	\VectorMultiply
+}
+
+% Много задач на векторное произведение
+\newcommand\MultiScalarVectorMultiply[2][\time]{%
+	\reinitrand[seed=#1, first=-9, last=9]%
+	\ToNull{tmpa}%
+	\whiledo{\value{tmpa}<#2}{%
+		\Inc{tmpa}\Example{\InitDet\ScalarVectorMultiply.}{}%
+%		\ifthenelse{\value{tmpa}<#2}{\Inc{tmpa}\Inc{primcount} \InitDet[4] \theprimcount \InvertSystem}{} \bigskip \par%
+	 }%
+}
+
+% Решение задачи на векторное произведение
+\newcommand\SolveScalarVectorMultiply[1]{%
+	\ifthenelse{\equal{#1}{O}}{%
+		\ScalarVectorMultiply:%
+		\setcounter{detca}{\value{detaa}*\value{detba}+\value{detab}*\value{detbb}+\value{detac}*\value{detbc}}%
+		\setcounter{detcb}{\value{detaa}*\value{detaa}+\value{detab}*\value{detab}+\value{detac}*\value{detac}}%
+		\setcounter{detcc}{\value{detba}*\value{detba}+\value{detbb}*\value{detbb}+\value{detbc}*\value{detbc}}%
+		$$(\vec a, \vec b) = \arabic{detca} \qquad \cos\widehat{\vec a, \vec b} = \frac{\arabic{detca}}{\sqrt{\arabic{detcb}}\cdot\sqrt{\arabic{detcc}}},$$
+		\setcounter{detca}{\value{detab}*\value{detbc}-\value{detac}*\value{detbb}}%
+		\setcounter{detcb}{\value{detac}*\value{detba}-\value{detaa}*\value{detbc}}%
+		\setcounter{detcc}{\value{detaa}*\value{detbb}-\value{detba}*\value{detab}}%
+%		\setcounter{dettmpb}{\value{detca}*\value{detca} + \value{detcb}*\value{detcb} + \value{detcc}*\value{detcc}}%
+		$$[\vec a, \vec b] = \{\arabic{detca},\, \arabic{detcb},\, \arabic{detcc}\}.$$%
+	}{}%
+}
+
+% Много решений задач на векторное произведение
+\newcommand\MultiSolveScalarVectorMultiply[3][\time]{%
+	\reinitrand[seed=#1, first=-9, last=9]%
+	\ToNull{tmpa}%
+	\whiledo{\value{tmpa}<#2}{%
+		\Inc{tmpa}\Example{\InitDet\SolveScalarVectorMultiply{#3}}{}%
+	 }%
+}
+
+% Двойное векторное произведение
+\newcommand\DoubleVectorMultiply{%
+	\ensuremath{\vec a = {\{\arabic{detaa},\, \arabic{detab},\, \arabic{detac}\}},\quad%
+				\vec b = {\{\arabic{detba},\, \arabic{detbb},\, \arabic{detbc}\}},\quad%
+				\vec c = {\{\arabic{detca},\, \arabic{detcb},\, \arabic{detcc}\}}%
+	}%
+}
+
+% Много задач на двойное векторное произведение
+\newcommand\MultiDoubleVectorMultiply[2][\time]{%
+	\reinitrand[seed=#1, first=-9, last=9]%
+	\ToNull{tmpa}%
+	\whiledo{\value{tmpa}<#2}{%
+		\Inc{tmpa}\Example{\InitDet[4]\DoubleVectorMultiply.}{}%
+%		\ifthenelse{\value{tmpa}<#2}{\Inc{tmpa}\Inc{primcount} \InitDet[4] \theprimcount \InvertSystem}{} \bigskip \par%
+	 }%
+}           
+
+% Решение задачи на двойное векторное произведение
+\newcommand\SolveDoubleVectorMultiply[1]{%
+	\ifthenelse{\equal{#1}{O}}{%
+		\setcounter{detda}{\value{detab}*\value{detbc}-\value{detac}*\value{detbb}}%
+		\setcounter{detdb}{\value{detac}*\value{detba}-\value{detaa}*\value{detbc}}%
+		\setcounter{detdc}{\value{detaa}*\value{detbb}-\value{detba}*\value{detab}}%
+		\setcounter{detad}{\value{detdb}*\value{detcc}-\value{detdc}*\value{detcb}}%
+		\setcounter{detbd}{\value{detdc}*\value{detca}-\value{detda}*\value{detcc}}%
+		\setcounter{detcd}{\value{detda}*\value{detcb}-\value{detca}*\value{detdb}}%
+%		\setcounter{dettmpb}{\value{detca}*\value{detca} + \value{detcb}*\value{detcb} + \value{detcc}*\value{detcc}}%
+		\DoubleVectorMultiply:%
+		$$[[\vec a, \vec b], \vec c] = \{\arabic{detad},\, \arabic{detbd},\, \arabic{detcd}\}.$$%
+	}{}%
+}
+
+% Много решений задач на двойное векторное произведение
+\newcommand\MultiSolveDoubleVectorMultiply[3][\time]{%
+	\reinitrand[seed=#1, first=-9, last=9]%
+	\ToNull{tmpa}%
+	\whiledo{\value{tmpa}<#2}{%
+		\Inc{tmpa}\Inc{primcount}\InitDet[4]\theprimcount\ \SolveDoubleVectorMultiply{#3} \BigPar%
+	 }%
+}
+
+% Смешанное произведение
+\newcommand\MixedMultiply{%
+	\ensuremath{\vec a = {\{\arabic{detaa},\, \arabic{detab},\, \arabic{detac}\}},\quad%
+				\vec b = {\{\arabic{detba},\, \arabic{detbb},\, \arabic{detbc}\}},\quad%
+				\vec c = {\{\arabic{detca},\, \arabic{detcb},\, \arabic{detcc}\}}%
+	}%
+}
+
+% Много задач на смешанное произведение
+\newcommand\MultiMixedMultiply[2][\time]{%
+	\reinitrand[seed=#1, first=-9, last=9]%
+	\ToNull{tmpa}%
+	\whiledo{\value{tmpa}<#2}{%
+		\Inc{tmpa}\Example{\InitDet[4]\MixedMultiply.}{}%
+%		\ifthenelse{\value{tmpa}<#2}{\Inc{tmpa}\Inc{primcount} \InitDet[4] \theprimcount \InvertSystem}{} \bigskip \par%
+	 }%
+}           
+
+% Решение задачи на смешанное произведение
+\newcommand\SolveMixedMultiply[1]{%
+	\ifthenelse{\equal{#1}{O}}{%
+		\setcounter{detda}{\value{detaa}*\value{detbb}*\value{detcc}+\value{detab}*\value{detbc}*\value{detca}+\value{detba}*\value{detcb}*\value{detac} - \value{detac}*\value{detbb}*\value{detca} - \value{detaa}*\value{detbc}*\value{detcb} - \value{detab}*\value{detba}*\value{detcc}}%
+%		\setcounter{dettmpb}{\value{detca}*\value{detca} + \value{detcb}*\value{detcb} + \value{detcc}*\value{detcc}}%
+		\MixedMultiply:%
+		$$([\vec a, \vec b], \vec c) = \arabic{detda}.$$%
+	}{}%
+}
+
+% Много решений задач на смешанное произведение
+\newcommand\MultiSolveMixedMultiply[3][\time]{%
+	\reinitrand[seed=#1, first=-9, last=9]%
+	\ToNull{tmpa}%
+	\whiledo{\value{tmpa}<#2}{%
+		\Inc{tmpa}\Example{\InitDet[4]\SolveMixedMultiply{#3}}{}%
+	 }%
+}
+
+% Площадь треугольника
+\newcommand\VectorMultiplyS{%
+	\ensuremath{A = {(\arabic{detaa},\, \arabic{detab},\, \arabic{detac})},\quad%
+				B = {(\arabic{detba},\, \arabic{detbb},\, \arabic{detbc})},\quad%
+				C = {(\arabic{detca},\, \arabic{detcb},\, \arabic{detcc})}
+	}%
+}
+
+% Много задач на площадь треугольника через векторное произведение
+\newcommand\MultiVectorMultiplyS[2][\time]{%
+	\reinitrand[seed=#1, first=-9, last=9]%
+	\ToNull{tmpa}%
+	\whiledo{\value{tmpa}<#2}{%
+		\Inc{tmpa}\Example{\InitDet[4]\VectorMultiplyS.}{}%
+%		\ifthenelse{\value{tmpa}<#2}{\Inc{tmpa}\Inc{primcount} \InitDet[4] \theprimcount \InvertSystem}{} \bigskip \par%
+	 }%
+}
+
+% Решение задачи на площадь треугольника через векторное произведение
+\newcommand\SolveVectorMultiplyS[1]{%
+	\ifthenelse{\equal{#1}{O}}{%
+		\VectorMultiplyS:%
+		\setcounter{detda}{\value{detba}-\value{detaa}}%
+		\setcounter{detdb}{\value{detbb}-\value{detab}}%
+		\setcounter{detdc}{\value{detbc}-\value{detac}}%
+		\setcounter{detad}{\value{detca}-\value{detaa}}%
+		\setcounter{detbd}{\value{detcb}-\value{detab}}%
+		\setcounter{detcd}{\value{detcc}-\value{detac}}%
+		\setcounter{detaa}{\value{detdb}*\value{detcd}-\value{detdc}*\value{detbd}}%
+		\setcounter{detab}{\value{detdc}*\value{detad}-\value{detda}*\value{detcd}}%
+		\setcounter{detac}{\value{detda}*\value{detbd}-\value{detdb}*\value{detad}}%
+		\setcounter{detdd}{\value{detaa}*\value{detaa} + \value{detab}*\value{detab} + \value{detac}*\value{detac}}%
+		$$S_{\triangle ABC} = \frac12 |[\vec{AB}, \vec AC]| = \frac{\sqrt{\arabic{detdd}}}{2}.$$%
+	}{}%
+}
+
+% Много решений задач на площадь треугольника через векторное произведение
+\newcommand\MultiSolveVectorMultiplyS[3][\time]{%
+	\reinitrand[seed=#1, first=-9, last=9]%
+	\ToNull{tmpa}%
+	\whiledo{\value{tmpa}<#2}{%
+		\Inc{tmpa}\Example{\InitDet[4]\SolveVectorMultiplyS{#3}}{}%
+	 }%
+}
+
+% Компланарность векторов 
+\newcommand\MixedMultiplyK{%
+	\ensuremath{\vec a = {\{\arabic{detaa},\, \arabic{detab},\, \arabic{detac}\}},\quad%
+				\vec b = {\{\arabic{detba},\, \arabic{detbb},\, \arabic{detbc}\}},\quad%
+				\vec c = {\{\arabic{detca},\, \arabic{detcb},\, \arabic{detcc}\}}%
+	}%
+}
+
+% Много задач на компланарность векторов 
+\newcommand\MultiMixedMultiplyK[2][\time]{%
+	\reinitrand[seed=#1, first=-3, last=3]%
+	\ToNull{tmpa}%
+	\whiledo{\value{tmpa}<#2}{%
+		\Inc{tmpa}\Example{\InitDet[4]\MixedMultiplyK.}{}%
+%		\ifthenelse{\value{tmpa}<#2}{\Inc{tmpa}\Inc{primcount} \InitDet[4] \theprimcount \InvertSystem}{} \bigskip \par%
+	 }%
+}           
+
+% Решение задачи на компланарность векторов 
+\newcommand\SolveMixedMultiplyK[1]{%
+	\ifthenelse{\equal{#1}{O}}{%
+		\setcounter{detdd}{\value{detaa}*\value{detbb}*\value{detcc}+\value{detab}*\value{detbc}*\value{detca}+\value{detba}*\value{detcb}*\value{detac} - \value{detac}*\value{detbb}*\value{detca} - \value{detaa}*\value{detbc}*\value{detcb} - \value{detab}*\value{detba}*\value{detcc}}%
+		\MixedMultiplyK:%
+		$$([\vec a, \vec b], \vec c) = \arabic{detdd} \Longrightarrow \text{ вектора %
+			\IfNull{detdd}{}{не } компланарны
+		}.$$%
+	}{}%
+}
+
+% Много решений задач на компланарность векторов 
+\newcommand\MultiSolveMixedMultiplyK[3][\time]{%
+	\reinitrand[seed=#1, first=-3, last=3]%
+	\ToNull{tmpa}%
+	\whiledo{\value{tmpa}<#2}{%
+		\Inc{tmpa}\Example{\InitDet[4]\SolveMixedMultiplyK{#3}}{}%
+	 }%
+}
+
+% Объём через смешанное произведение
+\newcommand\MixedMultiplyV{%
+	\ensuremath{O = {(\arabic{detda},\, \arabic{detdb},\, \arabic{detdc})},\,%
+				A = {(\arabic{detaa},\, \arabic{detab},\, \arabic{detac})},\,%
+				B = {(\arabic{detba},\, \arabic{detbb},\, \arabic{detbc})},\,%
+				C = {(\arabic{detca},\, \arabic{detcb},\, \arabic{detcc})}%
+	}%
+}
+
+% Много задач на объём через смешанное произведение
+\newcommand\MultiMixedMultiplyV[2][\time]{%
+	\reinitrand[seed=#1, first=-9, last=9]%
+	\ToNull{tmpa}%
+	\whiledo{\value{tmpa}<#2}{%
+		\Inc{tmpa}\Example{\InitDet[4]\MixedMultiplyV.}{}%
+%		\ifthenelse{\value{tmpa}<#2}{\Inc{tmpa}\Inc{primcount} \InitDet[4] \theprimcount \InvertSystem}{} \bigskip \par%
+	}%
+}           
+
+% Решение задачи на объём через смешанное произведение
+\newcommand\SolveMixedMultiplyV[1]{%
+	\ifthenelse{\equal{#1}{O}}{%
+		\MixedMultiplyV:%
+		\setcounter{detaa}{\value{detaa}-\value{detda}}%
+		\setcounter{detab}{\value{detab}-\value{detdb}}%
+		\setcounter{detac}{\value{detac}-\value{detdc}}%
+		\setcounter{detba}{\value{detba}-\value{detda}}%
+		\setcounter{detbb}{\value{detbb}-\value{detdb}}%
+		\setcounter{detbc}{\value{detbc}-\value{detdc}}%
+		\setcounter{detca}{\value{detca}-\value{detda}}%
+		\setcounter{detcb}{\value{detcb}-\value{detdb}}%
+		\setcounter{detcc}{\value{detcc}-\value{detdc}}%
+		\setcounter{detdd}{\value{detaa}*\value{detbb}*\value{detcc}+\value{detab}*\value{detbc}*\value{detca}+\value{detba}*\value{detcb}*\value{detac} - \value{detac}*\value{detbb}*\value{detca} - \value{detaa}*\value{detbc}*\value{detcb} - \value{detab}*\value{detba}*\value{detcc}}%
+%		\setcounter{dettmpb}{\value{detca}*\value{detca} + \value{detcb}*\value{detcb} + \value{detcc}*\value{detcc}}%
+		\IfNegate{detdd}{\setcounter{detdd}{-\value{detdd}}}{}
+		$$V = |([\vec {OA}, \vec {OB}], \vec {OC})| = \arabic{detdd}.$$%
+	}{}%
+}
+
+% Много решений задач на объём через смешанное произведение
+\newcommand\MultiSolveMixedMultiplyV[3][\time]{%
+	\reinitrand[seed=#1, first=-9, last=9]%
+	\ToNull{tmpa}%
+	\whiledo{\value{tmpa}<#2}{%
+		\Inc{tmpa}\Example{\InitDet[4]\SolveMixedMultiplyV{#3}}{}%
+	 }%
+}

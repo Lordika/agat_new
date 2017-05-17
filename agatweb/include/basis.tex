@@ -1,0 +1,178 @@
+﻿\newcommand\BasisFour[1]{%
+	$#1_1 = (\thedetaa, \thedetba, \thedetca, \thedetda)^T$;\ 
+	$#1_2 = (\thedetab, \thedetbb, \thedetcb, \thedetdb)^T$;\ 
+	$#1_3 = (\thedetac, \thedetbc, \thedetcc, \thedetdc)^T$;
+}
+
+\newcommand\MultiBasisFour[2][\time]{%
+	\reinitrand[seed=#1, first=-3, last=3]%
+	\ToNull{tmpa}%
+	\whiledo{\value{tmpa}<#2}{%
+		\Inc{tmpa}\Inc{primcount}\InitDet[4]\theprimcount\ \BasisFour{a}\par%
+		\InitDet[4]\centerline{\BasisFour{b}.}\BigPar%
+	}%
+}
+
+\newcommand\SolveBasisFour[2]{%
+	\BasisFour{#1}%
+}
+
+\newcommand\MultiSolveBasisFour[3][\time]{%
+	\reinitrand[seed=#1, first=-3, last=3]%
+	\ToNull{tmpa}%
+	\whiledo{\value{tmpa}<#2}{%
+		\Inc{tmpa}\Inc{primcount}\InitDet[4]\theprimcount\ \SolveBasisFour{a}{#3}\par% 
+		\InitDet[4]\centerline{\SolveBasisFour{b}{#3}.}\ToDoAns\BigPar% 
+	}%
+}
+
+\newcommand\BasisFive[1]{%
+	$#1_1 = (\thedetaa, \thedetba, \thedetca)^T$;\ %
+	$#1_2 = (\thedetab, \thedetbb, \thedetcb)^T$;\ % 
+	$#1_3 = (\thedetac, \thedetbc, \thedetcc)^T$; %
+}
+
+\newcommand\MultiBasisFive[2][\time]{%
+	\reinitrand[seed=#1, first=-3, last=3]%
+	\ToNull{tmpa}%
+	\whiledo{\value{tmpa}<#2}{%
+		\Inc{tmpa}\Inc{primcount}\InitDet\theprimcount\ \BasisFive{a}\par%
+		\InitDet\centerline{\BasisFive{b}.}\BigPar%
+	}%
+}
+
+\newcommand\SolveBasisFive[2]{%
+	\BasisFive{#1}%
+}
+
+\newcommand\MultiSolveBasisFive[3][\time]{%
+	\reinitrand[seed=#1, first=-3, last=3]%
+	\ToNull{tmpa}%
+	\whiledo{\value{tmpa}<#2}{%
+		\Inc{tmpa}\Inc{primcount}\InitDet\theprimcount\ \SolveBasisFive{a}{#3}\par%
+		\InitDet\centerline{\SolveBasisFive{b}{#3}.}\ToDoAns\BigPar%
+	}%
+}
+
+\newcommand\BasisSix{%
+	$%
+		F = \begin{pmatrix} \thedetaa & \thedetab \\ \thedetac & \thedetad \end{pmatrix}, \qquad% 
+		G = \begin{pmatrix} \thedetba & \thedetbb \\ \thedetbc & \thedetbd \end{pmatrix}, \qquad% 
+		K = \begin{pmatrix} \thedetca & \thedetcb \\ \thedetcc & \thedetcd \end{pmatrix}%
+	$, \par% 
+	\centerline{$%		
+		M = \begin{pmatrix} \thedetda & \thedetdb \\ \thedetdc & \thedetdd \end{pmatrix}, \qquad%
+		A = \begin{pmatrix} \thedetea & \thedeteb \\ \thedetec & \thedeted \end{pmatrix}
+	$}%
+}
+
+\newcommand\MultiBasisSix[2][\time]{%
+	\reinitrand[seed=#1, first=-3, last=3]%
+	\ToNull{tmpa}%
+	\whiledo{\value{tmpa}<#2}{%
+		\Inc{tmpa}\Inc{primcount}\InitDet[5]\theprimcount\ \BasisSix\BigPar%
+	}%
+}
+
+\newcommand\SolveBasisSix[1]{%
+	\BasisSix%
+}
+
+\newcommand\MultiSolveBasisSix[3][\time]{%
+	\reinitrand[seed=#1, first=-3, last=3]%
+	\ToNull{tmpa}%
+	\whiledo{\value{tmpa}<#2}{%
+		\Inc{tmpa}\Inc{primcount}\InitDet[5]\theprimcount\ \SolveBasisSix{#3}\ToDoAns\BigPar%
+	}%
+}
+
+\newcommand\BasisSeven[1]{%
+	$#1_1 = (\thedetaa, \thedetba, \thedetca)$;\ %
+	$#1_2 = (\thedetab, \thedetbb, \thedetcb)$;\ % 
+	$#1_3 = (\thedetac, \thedetbc, \thedetcc)$; %
+}
+
+\newcommand\MultiBasisSeven[2][\time]{%
+	\reinitrand[seed=#1, first=-3, last=3]%
+	\ToNull{tmpa}%
+	\whiledo{\value{tmpa}<#2}{%
+		\Inc{tmpa}\Inc{primcount}\InitDet\theprimcount\ \BasisSeven{e}\par%
+		\InitDet\centerline{\BasisSeven{e'}.}\BigPar%
+	}%
+}
+
+\newcommand\SolveBasisSeven[2]{%
+	\BasisSeven{#1}%
+}
+
+\newcommand\MultiSolveBasisSeven[3][\time]{%
+	\reinitrand[seed=#1, first=-3, last=3]%
+	\ToNull{tmpa}%
+	\whiledo{\value{tmpa}<#2}{%
+		\Inc{tmpa}\Inc{primcount}\InitDet\theprimcount\ \SolveBasisSeven{e}{#3}\par%
+		\InitDet\centerline{\SolveBasisSeven{e'}{#3}.}\ToDoAns\BigPar%
+	}%
+}
+
+\newcommand\BasisEight{%
+	$%
+		a_1 = (\thedetaa, \thedetba, \thedetca, \thedetda, \thedetea);\quad %
+		a_2 = (\thedetab, \thedetbb, \thedetcb, \thedetdb, \thedeteb);
+	$\par%
+	\centerline{$%
+		a_3 = (\thedetac, \thedetbc, \thedetcc, \thedetdc, \thedetec);\quad %
+		a_4 = (\thedetad, \thedetbd, \thedetcd, \thedetdd, \thedeted);%
+	$}%
+}
+
+\newcommand\MultiBasisEight[2][\time]{%
+	\reinitrand[seed=#1, first=-3, last=3]%
+	\ToNull{tmpa}%
+	\whiledo{\value{tmpa}<#2}{%
+		\Inc{tmpa}\Inc{primcount}\InitDet[5]\theprimcount\ \BasisEight\ \BigPar%
+	}%
+}
+
+\newcommand\SolveBasisEight[1]{%
+	\BasisEight%
+}
+
+\newcommand\MultiSolveBasisEight[3][\time]{%
+	\reinitrand[seed=#1, first=-3, last=3]%
+	\ToNull{tmpa}%
+	\whiledo{\value{tmpa}<#2}{%
+		\Inc{tmpa}\Inc{primcount}\InitDet[5]\theprimcount\ \SolveBasisEight{#3} \ToDoAns\BigPar%
+	}%
+}
+
+\newcommand\BasisNine{%
+	$%
+		U = h(\thedetaa, \thedetab, \thedetac, \thedetad);%
+		(\thedetba, \thedetbb, \thedetbc, \thedetbd);%
+	$\par%
+	\centerline{$%		
+		V = h(\thedetca, \thedetcb, \thedetcc, \thedetcd);%
+		(\thedetda, \thedetdb, \thedetdc, \thedetdd);\qquad %
+		w = (\thedetea, \thedeteb, \thedetec, \thedeted)%
+	$}%
+}
+
+\newcommand\MultiBasisNine[2][\time]{%
+	\reinitrand[seed=#1, first=-3, last=3]%
+	\ToNull{tmpa}%
+	\whiledo{\value{tmpa}<#2}{%
+		\Inc{tmpa}\Inc{primcount}\InitDet[5]\theprimcount\ \BasisNine \BigPar%
+	}%
+}
+
+\newcommand\SolveBasisNine[1]{%
+	\BasisNine%
+}
+
+\newcommand\MultiSolveBasisNine[3][\time]{%
+	\reinitrand[seed=#1, first=-3, last=3]%
+	\ToNull{tmpa}%
+	\whiledo{\value{tmpa}<#2}{%
+		\Inc{tmpa}\Inc{primcount}\InitDet[5]\theprimcount\ \SolveBasisNine{#3} \ToDoAns\BigPar%
+	}%
+}

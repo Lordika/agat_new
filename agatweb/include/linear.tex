@@ -1,0 +1,331 @@
+﻿\newcommand\LinearOneA{%
+	\ensuremath{% 
+		f_1 = (\thedetaa e_1) + (\thedetab e_2);\ 
+		f_2 = (\thedetac e_1) + (\thedetad e_2); 
+	}
+	$$
+		A = \begin{pmatrix}
+			\thedetba & \thedetbb \\
+			\thedetbc & \thedetbd 
+		\end{pmatrix}.
+	$$%
+}
+
+\newcommand\MultiLinearOneA[2][\time]{%
+	\reinitrand[seed=#1, first=-5, last=5]%
+	\ToNull{tmpa}%
+	\whiledo{\value{tmpa}<#2}{%
+		\Inc{tmpa}\Inc{primcount}\InitDet[4]\theprimcount\ \LinearOneA \BigPar%\qquad%
+	 }%
+}
+
+\newcommand\LinearOneB{%
+	\ensuremath{% 
+		f_1 = (\thedetaa e_1) + (\thedetab e_2) + (\thedetac e_3);\ 
+		f_2 = (\thedetad e_1) + (\thedetae e_2) + (\thedetba e_3);\\ 
+		f_3 = (\thedetbb e_1) + (\thedetbc e_2) + (\thedetbd e_3);
+	}%
+	$$
+		A = \begin{pmatrix}
+			\thedetca & \thedetcb & \thedetcc \\
+			\thedetcd & \thedetce & \thedetda \\
+			\thedetdb & \thedetdc & \thedetdd
+		\end{pmatrix}.
+	$$%
+}
+
+\newcommand\MultiLinearOneB[2][\time]{%
+	\reinitrand[seed=#1, first=-5, last=5]%
+	\ToNull{tmpa}%
+	\whiledo{\value{tmpa}<#2}{%
+		\Inc{tmpa}\Inc{primcount}\InitDet[5]\theprimcount\ \LinearOneB \BigPar%\qquad%
+	 }%
+}
+
+\newcommand\LinearTwoA{%
+	\ensuremath{% 
+		a_1 = (\thedetaa, \thedetab);\ 
+		a_2 = (\thedetac, \thedetad); 
+	}%
+	$$
+		A = \begin{pmatrix}
+			\thedetba & \thedetbb\\
+			\thedetbc & \thedetbd
+		\end{pmatrix}.
+	$$%
+	\ensuremath{% 
+		b_1 = (\thedetca, \thedetcb);\ 
+		b_2 = (\thedetcd, \thedetdd); 
+	}%
+}
+
+\newcommand\MultiLinearTwoA[2][\time]{%
+	\reinitrand[seed=#1, first=-5, last=5]%
+	\ToNull{tmpa}%
+	\whiledo{\value{tmpa}<#2}{%
+		\Inc{tmpa}\Inc{primcount}\InitDet[4]\theprimcount\ \LinearTwoA\BigPar%\qquad%
+	 }%
+}
+
+\newcommand\LinearTwoB{%
+	\ensuremath{% 
+		a_1 = (\thedetaa, \thedetab, \thedetac);\ 
+		a_2 = (\thedetad, \thedetae, \thedetaf);\ 
+		a_3 = (\thedetba, \thedetbb, \thedetbc);
+	}%
+	$$
+		A = \begin{pmatrix}
+			\thedetbd & \thedetbe & \thedetbf \\
+			\thedetca & \thedetcb & \thedetcc \\
+			\thedetcd & \thedetce & \thedetcf
+		\end{pmatrix}.
+	$$%
+	\ensuremath{% 
+		b_1 = (\thedetda, \thedetdb, \thedetdc);\ 
+		b_2 = (\thedetdd, \thedetde, \thedetdf);\ 
+		b_3 = (\thedetea, \thedeteb, \thedetec);
+	}%
+}
+
+\newcommand\MultiLinearTwoB[2][\time]{%
+	\reinitrand[seed=#1, first=-5, last=5]%
+	\ToNull{tmpa}%
+	\whiledo{\value{tmpa}<#2}{%
+		\Inc{tmpa}\Inc{primcount}\InitDet[6]\theprimcount\ \LinearTwoB\BigPar%\qquad%
+	 }%
+}
+
+\newcommand\LinearThreeA{%
+	\ensuremath{% 
+		a_1 = (\thedetaa, \thedetab);\ 
+		a_2 = (\thedetac, \thedetad);
+	}\\%
+	\ensuremath{% 
+		b_1 = (\thedetba, \thedetbb);\ 
+		b_2 = (\thedetbc, \thedetbd);
+	}%
+}
+
+\newcommand\MultiLinearThreeA[2][\time]{%
+	\reinitrand[seed=#1, first=-5, last=5]%
+	\ToNull{tmpa}%
+	\whiledo{\value{tmpa}<#2}{%
+		\Inc{tmpa}\Inc{primcount}\InitDet[4]\theprimcount\ \LinearThreeA\BigPar%\qquad%
+	 }%
+}
+
+\newcommand\LinearThreeB{%
+	\ensuremath{% 
+		a_1 = (\thedetaa, \thedetab, \thedetac);\ 
+		a_2 = (\thedetad, \thedetae, \thedetaf);\ 
+		a_3 = (\thedetba, \thedetbb, \thedetbc);
+	}\\ %
+	\ensuremath{% 
+		b_1 = (\thedetbd, \thedetbe, \thedetbf);\ 
+		b_2 = (\thedetca, \thedetcb, \thedetcc);\ 
+		b_3 = (\thedetcd, \thedetce, \thedetcf);
+	}%
+}
+
+\newcommand\MultiLinearThreeB[2][\time]{%
+	\reinitrand[seed=#1, first=-5, last=5]%
+	\ToNull{tmpa}%
+	\whiledo{\value{tmpa}<#2}{%
+		\Inc{tmpa}\Inc{primcount}\InitDet[6]\theprimcount\ \LinearThreeB\BigPar%\qquad%
+	 }%
+}
+
+\newcommand\LinearFourA{%
+	$$%
+		A = \begin{pmatrix}
+			\thedetaa & \thedetab & \thedetac \\
+			\thedetba & \thedetbb & \thedetbc \\
+			\thedetca & \thedetcb & \thedetcc 
+		\end{pmatrix}.
+	$$%
+}
+
+\newcommand\MultiLinearFourA[2][\time]{%
+	\reinitrand[seed=#1, first=-5, last=5]%
+	\ToNull{tmpa}%
+	\whiledo{\value{tmpa}<#2}{%
+		\Inc{tmpa}\Inc{primcount}\InitDet\theprimcount\ \LinearFourA\BigPar%\qquad%
+	 }%
+}
+
+\newcommand\LinearFourB{%
+	$$
+		A = \begin{pmatrix}
+			\thedetaa & \thedetab & \thedetac & \thedetad\\
+			\thedetba & \thedetbb & \thedetbc & \thedetbd\\
+			\thedetca & \thedetcb & \thedetcc & \thedetcd\\
+			\thedetda & \thedetdb & \thedetdc & \thedetdd
+		\end{pmatrix}.
+	$$%
+}
+
+\newcommand\MultiLinearFourB[2][\time]{%
+	\reinitrand[seed=#1, first=-5, last=5]%
+	\ToNull{tmpa}%
+	\whiledo{\value{tmpa}<#2}{%
+		\Inc{tmpa}\Inc{primcount}\InitDet[4]\theprimcount\ \LinearFourB\BigPar%\qquad%
+	 }%
+}
+
+\newcommand\LinearFiveA{%
+	$$
+		A = \begin{pmatrix}
+			\thedetaa & \thedetab & \thedetac & \thedetad\\
+			\thedetba & \thedetbb & \thedetbc & \thedetbd\\
+			\thedetca & \thedetcb & \thedetcc & \thedetcd
+		\end{pmatrix}.
+	$$%
+}
+
+\newcommand\MultiLinearFiveA[2][\time]{%
+	\reinitrand[seed=#1, first=-5, last=5]%
+	\ToNull{tmpa}%
+	\whiledo{\value{tmpa}<#2}{%
+		\Inc{tmpa}\Inc{primcount}\InitDet[4]\theprimcount\ \LinearFiveA\BigPar%\qquad%
+	 }%
+}
+
+\newcommand\LinearFiveB{%
+	$$
+		A = \begin{pmatrix}
+			\thedetaa & \thedetab & \thedetac & \thedetad & \thedetae\\
+			\thedetba & \thedetbb & \thedetbc & \thedetbd & \thedetab\\
+			\thedetca & \thedetcb & \thedetcc & \thedetcd & \thedetac\\
+			\thedetda & \thedetdb & \thedetdc & \thedetdd & \thedetad\\
+			\thedetea & \thedeteb & \thedetec & \thedeted & \thedetee
+		\end{pmatrix}.
+	$$%
+}
+
+\newcommand\MultiLinearFiveB[2][\time]{%
+	\reinitrand[seed=#1, first=-5, last=5]%
+	\ToNull{tmpa}%
+	\whiledo{\value{tmpa}<#2}{%
+		\Inc{tmpa}\Inc{primcount}\InitDet[5]\theprimcount\ \LinearFiveB\BigPar%\qquad%
+	 }%
+}
+
+\newcommand\LinearSixA{%
+	\ensuremath{%
+		a = (\thedetaa, \thedetba, \thedetca); \qquad%
+		b = (\thedetab, \thedetbb, \thedetcb).% 
+	}%
+}
+
+\newcommand\MultiLinearSixA[2][\time]{%
+	\reinitrand[seed=#1, first=-5, last=5]%
+	\ToNull{tmpa}%
+	\whiledo{\value{tmpa}<#2}{%
+		\Inc{tmpa}\Inc{primcount}\InitDet\theprimcount\ \LinearSixA\BigPar%\qquad%
+	 }%
+}
+
+\newcommand\LinearSixB{%
+	\ensuremath{%
+		a = (\thedetaa, \thedetab, \thedetac, \thedetad, \thedetae); \qquad%
+		b = (\thedetba, \thedetbb, \thedetbc, \thedetbd, \thedetbe).% 
+	}%
+}
+
+\newcommand\MultiLinearSixB[2][\time]{%
+	\reinitrand[seed=#1, first=-5, last=5]%
+	\ToNull{tmpa}%
+	\whiledo{\value{tmpa}<#2}{%
+		\Inc{tmpa}\Inc{primcount}\InitDet[5]\theprimcount\ \LinearSixB\BigPar%\qquad%
+	 }%
+}
+
+\newcommand\LinearSevenA{%
+	\ensuremath{%
+		a_1 = (\thedetaa, \thedetab, \thedetac); \qquad%
+		a_2 = (\thedetba, \thedetbb, \thedetbc).% 
+	}%
+}
+
+\newcommand\MultiLinearSevenA[2][\time]{%
+	\reinitrand[seed=#1, first=-5, last=5]%
+	\ToNull{tmpa}%
+	\whiledo{\value{tmpa}<#2}{%
+		\Inc{tmpa}\Inc{primcount}\InitDet\theprimcount\ \LinearSevenA\BigPar%\qquad%
+	 }%
+}
+
+\newcommand\LinearSevenB{%
+	\ensuremath{%
+		a_1 = (\thedetaa, \thedetab, \thedetac, \thedetad, \thedetae); \qquad%
+		a_2 = (\thedetba, \thedetbb, \thedetbc, \thedetbd, \thedetbe);% 
+	}%
+}
+
+\newcommand\MultiLinearSevenB[2][\time]{%
+	\reinitrand[seed=#1, first=-5, last=5]%
+	\ToNull{tmpa}%
+	\whiledo{\value{tmpa}<#2}{%
+		\Inc{tmpa}\Inc{primcount}\InitDet[5]\theprimcount\ \LinearSevenB\BigPar%\qquad%
+	 }%
+}
+
+\newcommand\LinearEight{%
+	\ensuremath{% 
+		f_1 = (\thedetaa, \thedetab, \thedetac)^T;\ % 
+		f_2 = (\thedetad, \thedetae, \thedetaf)^T;\ % 
+		f_3 = (\thedetba, \thedetbb, \thedetbc)^T;%
+	}%
+	$$%
+		A = \begin{pmatrix}%
+			\thedetbd & \thedetbe & \thedetbf \\%
+			\thedetca & \thedetcb & \thedetcc \\%
+			\thedetcd & \thedetce & \thedetcf%
+		\end{pmatrix}; \qquad%
+		B = \begin{pmatrix}%
+			\thedetda & \thedetdb & \thedetdc \\%
+			\thedetdd & \thedetde & \thedetdf \\%
+			\thedetea & \thedeteb & \thedetec%
+		\end{pmatrix}; \qquad% 
+		x = \begin{pmatrix}%
+			\thedeted \\ \thedetee \\ \thedetef%
+		\end{pmatrix}.%
+	$$%
+}
+
+\newcommand\MultiLinearEight[1][\time]{%
+	\reinitrand[seed=#1, first=-5, last=5]%
+	\ToNull{tmpa}%
+	\Inc{tmpa} \textbf{\alph{tmpa}). }%
+	Проверить, что $f = (f_1; f_2; f_3)$ базис в $R^3$ и найти матрицы перехода $Ce-f$ , $Cf-e$.
+	\smallskip \par
+	\Inc{tmpa} \textbf{\alph{tmpa}). }%
+	Определите координаты вектора $y = A \circ B(x)$ в базисе $f$.
+	\smallskip \par
+	\Inc{tmpa} \textbf{\alph{tmpa}). }%
+	Найти матрицы оператора $A^{-1}$ в базисах $e$ и $f$.
+	\smallskip \par
+	\Inc{tmpa} \textbf{\alph{tmpa}). }%
+	Найти размерность ядра и образа оператора $A$.
+	\smallskip \par
+	\Inc{tmpa} \textbf{\alph{tmpa}). }%
+	Найти размерность ядра и образа оператора $B$.
+	\smallskip \par
+	\Inc{tmpa} \textbf{\alph{tmpa}). }%
+	Постройте ортонормированный базис ядра и образа оператора $A$.
+	\smallskip \par
+	\Inc{tmpa} \textbf{\alph{tmpa}). }%
+	Постройте ортонормированный базис ядра и образа оператора $B$.
+	\smallskip \par
+	\Inc{tmpa} \textbf{\alph{tmpa}). }%
+	Найдите собственные числа и собственные вектора операторов $A$.
+	\smallskip \par
+	\Inc{tmpa} \textbf{\alph{tmpa}). }%
+	Найдите собственные числа и собственные вектора операторов $B$.
+	\smallskip \par
+	\Inc{tmpa} \textbf{\alph{tmpa}). }%
+	Выпишите матрицы операторов $A$ и $B$ в базисе из собственных векторов.
+	\smallskip \par
+	\Inc{primcount}\InitDet[6]\theprimcount\ \LinearEight\BigPar%\qquad%
+	\Inc{primcount}\InitDet[6]\theprimcount\ \LinearEight\BigPar%\qquad%
+}

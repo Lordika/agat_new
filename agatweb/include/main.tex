@@ -1,0 +1,189 @@
+﻿%	----------------------		Дополнительные пакеты 		---------------------
+% Русификация
+\usepackage[utf8]{inputenc}
+\usepackage[T2A]{fontenc}
+\usepackage[russian]{babel}
+
+% Улучшенная работа с формулами
+\usepackage[intlimits]{amsmath}
+\usepackage{amsfonts}
+
+% Для программирования
+\usepackage{ifthen, calc} 
+
+% Генерация случайных чисел
+\usepackage{lcg} 
+
+% Дополнительные символы
+\usepackage{textcomp} 
+
+% Изменение расстояния междустроками
+\usepackage{setspace}
+
+% Отступ в начале главы
+\usepackage{indentfirst}
+
+% Пакеты для работы с графикой и цветом
+%\usepackage[dvips]{graphicx}
+\usepackage[pdftex]{color}
+
+%Подключение гиперссылок
+\usepackage[pdftex,colorlinks,linkcolor=blue,bookmarksnumbered]{hyperref}
+
+%	----------------------		Работа с длинами 		---------------------
+
+% Изменение геометрии страницы
+\setlength{\hoffset}{-.75in}
+\setlength{\voffset}{-.75in}
+\addtolength{\textwidth}{1.5in}
+\addtolength{\textheight}{1.5in}
+
+%	----------------------		Создание новых счётчиков 		---------------------
+
+% Счётчик для циклов
+\newcounter{tmpa}
+\newcounter{temp}
+\newcounter{tmpb}
+\newcounter{tmpc}
+
+\newcounter{tmpsmart}
+\newcounter{smart}
+%	----------------------		Определение новых команд 		---------------------
+
+\newcommand\ITE[3]{\ifthenelse{#1}{#2}{#3}}
+
+% Полноразмерные формулы
+\newcommand{\D}{\displaystyle}
+
+% Скобки вокруг отрицательных переменных
+\newcommand{\alg}[1]{\ifthenelse{\value{#1}<0}{{(\arabic{#1})}}{\arabic{#1}}}
+
+%   Умный конец абзаца
+\newcommand\SmartPar[1]{%
+	\ifthenelse{\equal{#1}{5}}{%
+		\ifthenelse{\isodd{\value{primcount}}}{}{\bigskip\par}%
+	}{\ifthenelse{\equal{#1}{7}}{%
+		\bigskip\par%
+	}{}}%
+}
+
+
+\newcommand\BigPar{\bigskip\par}
+
+\newcommand\MedPar{\medskip\par}
+
+\newcommand\SmallPar{\smallskip\par}
+
+\newcommand\Example[2]{%
+	\refstepcounter{primcount}\theprimcount\ #1%
+	\ITE{\equal{#2}{}}{\BigPar}{%
+%		\SmallPar%
+		\begin{center}%
+			\textbf{Ответ:}\MedPar%
+
+			#2%
+		\end{center}%
+		\hrulefill%
+		\BigPar%
+	}%
+}
+
+\newcommand\SmartPrintValue[2][1]{%
+	\ToNull{smart}%
+%	\ToNull{tmpsmart}%
+%	\whiledo{\value{tmpsmart}<#1}{\Inc{tmpsmart}}%
+%	\whiledo{\value{smart}<#2}{\Inc{smart}}%
+	\Move{smart}{#2}%
+%	\addtocounter{tmpsmart}{#1}%
+	\ifthenelse{\equal{#1}{0}}{\ToNull{tmpsmart}}{}%
+	\IfNull{smart}{}{%
+		\IfNegate{smart}{%
+			\Inc{tmpsmart}\IfNOne{smart}{-}{\arabic{smart}}%
+		}{%
+			\IfNull{tmpsmart}{}{+}\Inc{tmpsmart}\IfOne{smart}{}{\arabic{smart}}%
+		}%
+	}%
+}
+
+\newcommand{\Task}[2]{%
+	\paragraph{{\bfseries\thetaskcount.}}#1\bigskip\par%
+	\addcontentsline{toc}{section}{Задача \textnumero\thetaskcount.}%
+	\input{\jobname_#2}\refstepcounter{taskcount}%
+	\hfill \hyperref[sec:toc]{[К оглавлению]}.%
+	\clearpage%
+}
+
+\newcommand{\ChooseTask}[1]{%
+	\ifcase #1 %
+		\or \input{include/task/t-mul_mat.tex}%
+		\or \input{include/task/t-det.tex}%
+		\or \input{include/task/t-invert.tex}%
+		\or \input{include/task/t-system.tex}%
+		\or \input{include/task/t-nhgsys.tex}%
+		\or \input{include/task/t-vector.tex}%
+		\or \input{include/task/t-lop.tex}%
+		\or \input{include/task/t-plane.tex}%
+		\or \input{include/task/t-lap.tex}%
+		\or \input{include/task/t-eigen.tex}%
+		\or \input{include/task/t-complex.tex}%
+		\or \input{include/task/t-basis.tex}%
+		\or \input{include/task/t-linear.tex}%
+		\or \input{include/task/t-jordan.tex}%
+		\or \input{include/task/t-quadre.tex}%
+		\or \input{include/task/t-qnf.tex}%
+		\or \input{include/task/t-curve.tex}%
+	\fi%
+}
+	
+\newcommand\ToDoAns{\smallskip\par\centerline{\Large \textcolor{red}{Решения пока нет!}}}
+
+\newcommand\Name{Nobody}
+
+\newcommand\GetName{\textit{\inputencoding{cp866}\Name\inputencoding{utf8}}}
+
+\newcommand\SetName[1]{\renewcommand\Name{#1}}
+
+%\newcommand\Theme{No Theme}
+
+%\newcommand\SetTheme[1]{\renewcommand\Theme{\textbf{#1}}}
+%	----------------------		Изменение действующих команд 		---------------------
+
+% Добавка точки к выводу переменной цикла 
+\renewcommand{\thetmpa}{\textbf{\arabic{tmpa}.}}
+
+\newcounter{taskcount}
+\newcounter{primcount}
+\newcounter{fifteencount}
+\numberwithin{taskcount}{fifteencount}
+\numberwithin{primcount}{taskcount}
+\renewcommand{\theprimcount}{\textbf{Пример \arabic{primcount}.}}
+
+\input{include/tvector.tex}
+\input{include/complex.tex}
+\input{include/basis.tex}
+\input{include/linear.tex}
+\input{include/jordan.tex}
+\input{include/cntrmath.tex}
+\input{include/matrix.tex}
+\input{include/strings.tex}
+\input{include/theme.tex}
+\input{tasknumber.tex}
+\input{name.tex}
+
+\Inc{taskcount}
+\Inc{tmpsmart}
+\hypersetup{%
+	unicode,%
+	colorlinks=true,%
+%	pdfpagemode=FullScreen,%
+%	pdfpagetransition=Dissolve,%
+	pdftitle={Домашняя работа \arabic{fifteencount} по предмету "Линейная алгебра и геометрия"},%
+	pdfauthor={Ali Shadow, Alira},%
+	pdfsubject={Домашнее задание},%
+	pdfkeywords={Линейная алгебра, Домашняя работа}%
+}
+
+
+\title{Методическое пособие по теме <<Матрицы>> \\ из курса <<Линейная алгебра и аналитическая геометрия>>}
+\author{Денисова И. П. \and Егорова Е. К. \and Костиков Ю. А. \and Мокряков А. В.}
+\date{\today}

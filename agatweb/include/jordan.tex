@@ -1,0 +1,266 @@
+﻿\newcommand\JordanOne{%
+	$$%
+		A = \left(\PrintMatrix{3}\right).%
+	$$%
+}
+
+\newcommand\MultiJordanOne[2][\time]{%
+	\reinitrand[seed=#1, first=-5, last=5]%
+	\ToNull{tmpa}%
+	\whiledo{\value{tmpa}<#2}{%
+		\Inc{tmpa}\Inc{primcount}\InitDet\theprimcount\ \JordanOne\BigPar%
+	}%
+}
+
+\newcommand\SolveJordanOne[1]{%
+	\JordanOne%
+	\ToDoAns%
+}
+
+\newcommand\MultiSolveJordanOne[3][\time]{%
+	\reinitrand[seed=#1, first=-5, last=5]%
+	\ToNull{tmpa}%
+	\whiledo{\value{tmpa}<#2}{%
+		\Inc{tmpa}\Inc{primcount}\InitDet\theprimcount\ \SolveJordanOne{#3}\BigPar%
+	}%
+}
+
+\newcommand\JordanTwo{%
+	$$%
+		A = \left(\PrintMatrix{3}\right).%
+	$$%
+}
+
+\newcommand\MultiJordanTwo[2][\time]{%
+	\reinitrand[seed=#1, first=-5, last=5]%
+	\ToNull{tmpa}%
+	\whiledo{\value{tmpa}<#2}{%
+		\Inc{tmpa}\Inc{primcount}\InitDet\theprimcount\ \JordanTwo\BigPar%
+	 }%
+}
+
+\newcommand\SolveJordanTwo[1]{%
+	\JordanTwo%
+	\ToDoAns%
+}
+
+\newcommand\MultiSolveJordanTwo[3][\time]{%
+	\reinitrand[seed=#1, first=-5, last=5]%
+	\ToNull{tmpa}%
+	\whiledo{\value{tmpa}<#2}{%
+		\Inc{tmpa}\Inc{primcount}\InitDet\theprimcount\ \SolveJordanTwo{#3}\BigPar%
+	}%
+}
+
+\newcommand\JordanThree{%
+	$$%
+		A = \left(\PrintMatrix{4}\right).%
+	$$%
+}
+
+\newcommand\MultiJordanThree[2][\time]{%
+	\reinitrand[seed=#1, first=-5, last=5]%
+	\ToNull{tmpa}%
+	\whiledo{\value{tmpa}<#2}{%
+		\Inc{tmpa}\Inc{primcount}\InitDet[4]\theprimcount\ \JordanThree\BigPar%
+	 }%
+}
+
+\newcommand\SolveJordanThree[1]{%
+	\JordanThree%
+	\ToDoAns%
+}
+
+\newcommand\MultiSolveJordanThree[3][\time]{%
+	\reinitrand[seed=#1, first=-5, last=5]%
+	\ToNull{tmpa}%
+	\whiledo{\value{tmpa}<#2}{%
+		\Inc{tmpa}\Inc{primcount}\InitDet[4]\theprimcount\ \SolveJordanThree{#3}\BigPar%
+	}%
+}
+
+\newcommand\JordanFour{%
+	$$
+		A = \begin{pmatrix}
+			1 & \thedetaa & \thedetab & \thedetac & \thedetad \\
+			0 & 1 & \thedetbb & \thedetbc & \thedetbd\\
+			0 & 0 & 1 & \thedetcc & \thedetcd\\
+			0 & 0 & 0 & 1 & \thedetdd\\
+			0 & 0 & 0 & 0 & 1
+		\end{pmatrix}.
+	$$%
+}
+
+\newcommand\MultiJordanFour[2][\time]{%
+	\reinitrand[seed=#1, first=-5, last=5]%
+	\ToNull{tmpa}%
+	\whiledo{\value{tmpa}<#2}{%
+		\Inc{tmpa}\Inc{primcount}\InitDet[4]\theprimcount\ \JordanFour\BigPar%
+	 }%
+}
+
+\newcommand\SolveJordanFour[1]{%
+	\JordanFour%
+	\ToDoAns%
+}
+
+\newcommand\MultiSolveJordanFour[3][\time]{%
+	\reinitrand[seed=#1, first=-5, last=5]%
+	\ToNull{tmpa}%
+	\whiledo{\value{tmpa}<#2}{%
+		\Inc{tmpa}\Inc{primcount}\InitDet[4]\theprimcount\ \SolveJordanFour{#3}\BigPar%
+	}%
+}
+
+\newcommand\JordanFive{%
+	$$
+		A = \begin{pmatrix}
+			1 & \thedetaa & \thedetab & \thedetac & \thedetad & \thedetae\\
+			0 & 1 & \thedetbb & \thedetbc & \thedetbd & \thedetbe\\
+			0 & 0 & 1 & \thedetcc & \thedetcd & \thedetce\\
+			0 & 0 & 0 & 1 & \thedetdd & \thedetde\\
+			0 & 0 & 0 & 0 & 1 & \thedetee \\
+			0 & 0 & 0 & 0 & 0 & 1
+		\end{pmatrix}.
+	$$%
+}
+
+\newcommand\MultiJordanFive[2][\time]{%
+	\reinitrand[seed=#1, first=-5, last=5]%
+	\ToNull{tmpa}%
+	\whiledo{\value{tmpa}<#2}{%
+		\Inc{tmpa}\Inc{primcount}\InitDetFive\theprimcount\ \JordanFive\BigPar%
+	 }%
+}
+
+\newcommand\SolveJordanFive[1]{%
+	\JordanFive%
+	\ToDoAns%
+}
+
+\newcommand\MultiSolveJordanFive[3][\time]{%
+	\reinitrand[seed=#1, first=-5, last=5]%
+	\ToNull{tmpa}%
+	\whiledo{\value{tmpa}<#2}{%
+		\Inc{tmpa}\Inc{primcount}\InitDetFive\theprimcount\ \SolveJordanFive{#3}\BigPar%
+	}%
+}
+
+\newcommand\JordanSix{%
+	\ToNull{tmpc}%
+	\IfNegate{detaa}{\Imm{tmpc}{detaa}}{\Ipp{tmpc}{detaa}}%
+	\IfNegate{detab}{\Imm{tmpc}{detab}}{\Ipp{tmpc}{detab}}%
+	\IfNegate{detac}{\Imm{tmpc}{detac}}{\Ipp{tmpc}{detac}}%
+	\IfNegate{detba}{\Imm{tmpc}{detba}}{\Ipp{tmpc}{detba}}%
+	\IfNegate{detbb}{\Imm{tmpc}{detbb}}{\Ipp{tmpc}{detbb}}%
+	\IfNegate{detbc}{\Imm{tmpc}{detbc}}{\Ipp{tmpc}{detbc}}%
+	\IfNegate{detca}{\Imm{tmpc}{detca}}{\Ipp{tmpc}{detca}}%
+	\IfNegate{detcb}{\Imm{tmpc}{detcb}}{\Ipp{tmpc}{detcb}}%
+	\IfNegate{detcc}{\Imm{tmpc}{detcc}}{\Ipp{tmpc}{detcc}}%
+	$$%
+		n = \arabic{tmpc}; \qquad A = \left(\PrintMatrix{2}\right).%
+	$$%
+}
+
+\newcommand\MultiJordanSix[2][\time]{%
+	\reinitrand[seed=#1, first=-5, last=5]%
+	\ToNull{tmpa}%
+	\whiledo{\value{tmpa}<#2}{%
+		\Inc{tmpa}\Inc{primcount}\InitDet\theprimcount\ \JordanSix\BigPar%
+	 }%
+}
+
+\newcommand\SolveJordanSix[1]{%
+	\JordanSix%
+	\ToDoAns%
+}
+
+\newcommand\MultiSolveJordanSix[3][\time]{%
+	\reinitrand[seed=#1, first=-5, last=5]%
+	\ToNull{tmpa}%
+	\whiledo{\value{tmpa}<#2}{%
+		\Inc{tmpa}\Inc{primcount}\InitDet\theprimcount\ \SolveJordanSix{#3}\BigPar%
+	}%
+}
+
+\newcommand\JordanSeven{%
+	$$%
+		A = \left(\PrintMatrix{2}\right).%
+	$$%
+}
+
+\newcommand\MultiJordanSeven[2][\time]{%
+	\reinitrand[seed=#1, first=-5, last=5]%
+	\ToNull{tmpa}%
+	\whiledo{\value{tmpa}<#2}{%
+		\Inc{tmpa}\Inc{primcount}\InitDet\theprimcount\ \JordanSeven\BigPar%
+	 }%
+}
+
+\newcommand\SolveJordanSeven[1]{%
+	\JordanSeven%
+	\ToDoAns%
+}
+
+\newcommand\MultiSolveJordanSeven[3][\time]{%
+	\reinitrand[seed=#1, first=-5, last=5]%
+	\ToNull{tmpa}%
+	\whiledo{\value{tmpa}<#2}{%
+		\Inc{tmpa}\Inc{primcount}\InitDet\theprimcount\ \SolveJordanSeven{#3}\BigPar%
+	}%
+}
+
+\newcommand\JordanEight{%
+	$$%
+		A = \left(\PrintMatrix{2}\right).%
+	$$%
+}
+
+\newcommand\MultiJordanEight[2][\time]{%
+	\reinitrand[seed=#1, first=-5, last=5]%
+	\ToNull{tmpa}%
+	\whiledo{\value{tmpa}<#2}{%
+		\Inc{tmpa}\Inc{primcount}\InitDet\theprimcount\ \JordanEight\BigPar%
+	 }%
+}
+
+\newcommand\SolveJordanEight[1]{%
+	\JordanEight%
+	\ToDoAns%
+}
+
+\newcommand\MultiSolveJordanEight[3][\time]{%
+	\reinitrand[seed=#1, first=-5, last=5]%
+	\ToNull{tmpa}%
+	\whiledo{\value{tmpa}<#2}{%
+		\Inc{tmpa}\Inc{primcount}\InitDet\theprimcount\ \SolveJordanEight{#3}\BigPar%
+	}%
+}
+
+\newcommand\QuadSimple{%
+	$%
+		Q = \arabic{detab} x_1 x_2 \IfNegate{detac}{}{+} \arabic{detac} x_1 x_3 \IfNegate{detbc}{}{+} \arabic{detbc} x_2 x_3%
+	$%
+}
+
+\newcommand\MultiQuadSimple[2][\time]{%
+	\reinitrand[seed=#1, first=-9, last=9]%
+	\ToNull{tmpa}%
+	\whiledo{\value{tmpa}<#2}{%
+		\Inc{tmpa}\InitDet\Example{\QuadSimple.}{}%
+	 }%
+}
+
+\newcommand\SolveQuadSimple[1]{%
+	\QuadSimple%
+	\ToDoAns%
+}
+
+\newcommand\MultiSolveQuadSimple[3][\time]{%
+	\reinitrand[seed=#1, first=-9, last=9]%
+	\ToNull{tmpa}%
+	\whiledo{\value{tmpa}<#2}{%
+		\Inc{tmpa}\InitDet\Example{\SolveQuadSimple{#3}}{}%
+	}%
+}
+
