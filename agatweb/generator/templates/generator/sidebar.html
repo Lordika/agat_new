@@ -1,3 +1,5 @@
+{% load bootstrap3 %}
+{% load staticfiles %}
 <aside class="col-xs-12 col-sm-12 col-md-4 col-lg-3">
     <ul class="myside">
         <li><i class="fa fa-check" aria-hidden="true"></i>Попытка 1</li>
@@ -5,5 +7,10 @@
         <li><i class="fa fa-times" aria-hidden="true"></i>Попытка 3</li>
         <li><i class="fa fa-spinner" aria-hidden="true"></i>Попытка 4</li>
     </ul>
-    <button type="button" class="btn btn-success">Сгенерировать</button>
+    <form action="{{ task.gen_pass }}" method="post"  role="form" class="form">
+        {% csrf_token %}
+        {% buttons %}
+            <button type="submit" class="btn btn-success">Сгенерировать</button>
+        {% endbuttons %}
+    </form>
 </aside>

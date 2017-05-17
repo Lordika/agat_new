@@ -42,6 +42,7 @@ class GenTask:
                 shutil.move(path2, path)
 
     def __doset(self):
+        os.chdir(os.path.join(os.path.abspath(os.getcwd()), 'agatweb'))
         path = os.path.join(os.path.abspath(os.getcwd()), 'static', 'Stud', self.Surname+self.Name)
         try:
             os.makedirs(path)
