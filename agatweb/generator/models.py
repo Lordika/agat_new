@@ -16,7 +16,6 @@ class GenTask(models.Model):
     taskId = models.ForeignKey(Task, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     status = models.IntegerField()
-    file = models.FilePathField(path=os.path.join(os.path.abspath(os.getcwd()), 'static'), null=True, blank=True)
 
     def __str__(self):
-        return '{} {}'.format(self.user, self.taskId.pk)
+        return 'Работа пользователя {} №{}'.format(self.user, self.taskId.pk)
