@@ -16,11 +16,11 @@
                 " aria-hidden="true"></i>
                 <a href="
                    {% if cur_task.status > 1 %}
-                   download/{{ cur_task.taskId }}
+                   /download/{{ cur_task.taskId.id }}/
                    {% else %}
                     #
                     {% endif %}
-                ">{{ cur_task }} </a></li>
+                " target="_blank">{{ cur_task }} </a></li>
         {% endfor %}
     </ul>
     <form action="{{ task.gen_pass }}" method="post"  role="form" class="form">

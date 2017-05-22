@@ -2,12 +2,17 @@
 import os
 import shutil
 
+from django.contrib.auth.models import User
+from .models import GenTask, Task
 
-class GenTask:
-    def __init__(self, surname: str, name: str, task: int):
+class generation_task:
+    def __init__(self, surname: str, name: str, task: int, user_id: int):
         self.Name = name
         self.Surname = surname
         self.Task = task
+        self.userId = user_id
+        self.TaskOb = GenTask(taskId=Task.objects.get(pk=task), user=User.objects.get(pk=user_id), status=1)
+        self.TaskOb.save()
 
     def gen(self):
         self.__doset()
@@ -40,8 +45,12 @@ class GenTask:
                 path = os.path.join(path, f)
                 path2 = os.path.join(os.path.abspath(os.getcwd()), f)
                 shutil.move(path2, path)
+        os.chdir(self.steatdir)
+        self.TaskOb.status = 2
+        self.TaskOb.save()
 
     def __doset(self):
+        self.steatdir = os.path.abspath(os.getcwd())
         os.chdir(os.path.join(os.path.abspath(os.getcwd()), 'agatweb'))
         path = os.path.join(os.path.abspath(os.getcwd()), 'static', 'Stud', self.Surname+self.Name)
         try:
