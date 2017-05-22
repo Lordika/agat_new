@@ -2,15 +2,15 @@
 {% load staticfiles %}
 <aside class="col-xs-12 col-sm-12 col-md-4 col-lg-3">
     <ul class="myside">
-        {% for cur_task in user.gentask_set.all %}
+        {% for cur_task in gen_list %}
             <li><i class="fa {{ cur_task.icon.icon }}" aria-hidden="true"></i>
                 <a href="
                    {% if cur_task.status > 1 %}
-                   /download/{{ cur_task.taskId.id }}/
+                   /download/{{ cur_task.taskId.id }}/?id={{ cur_task.instance }}
                    {% else %}
                     #
                     {% endif %}
-                " target="_blank">{{ cur_task }} </a></li>
+                " target="_blank">{{ cur_task.print }} </a></li>
         {% endfor %}
     </ul>
     <form action="{{ task.gen_pass }}" method="post"  role="form" class="form">

@@ -49,8 +49,8 @@ class generation_task:
                     os.makedirs(path)
                 except:
                     pass
-                path = os.path.join(path, f)
-                path2 = os.path.join(os.path.abspath(os.getcwd()), f)
+                path2 = os.path.join(os.path.abspath(os.getcwd()), str(self.TaskOb.instance)+f)
+                os.rename(os.path.join(os.path.abspath(os.getcwd()), f), path2)
                 shutil.move(path2, path)
         os.chdir(self.steatdir)
         self.TaskOb.status = 2

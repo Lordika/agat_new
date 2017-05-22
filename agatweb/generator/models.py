@@ -28,3 +28,6 @@ class GenTask(models.Model):
 
     def __str__(self):
         return 'Работа пользователя {} №{}'.format(self.user, self.taskId.pk)
+
+    def print(self):
+        return 'Попытка №{}'.format(int(self.instance))
