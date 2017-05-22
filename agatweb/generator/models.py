@@ -1,6 +1,5 @@
 from django.contrib.auth.models import User
 from django.db import models
-import os
 # Create your models here.
 
 
@@ -16,6 +15,16 @@ class GenTask(models.Model):
     taskId = models.ForeignKey(Task, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     status = models.IntegerField()
+    icon = models.ForeignKey(TaskIcon, on_delete=models.CASCADE)
+    instance = models.IntegerField()
 
     def __str__(self):
         return 'Работа пользователя {} №{}'.format(self.user, self.taskId.pk)
+
+
+class TaskIcon(models.Model):
+    icon = models.CharField(max_length=25)
+    title = models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.title
