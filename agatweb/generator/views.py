@@ -40,7 +40,7 @@ def DownloadTask(request, task_id):
     if not request.user.is_authenticated:
         return redirect('/')
     task = get_object_or_404(Task, pk=task_id)
-    path = os.path.join(os.path.abspath(os.getcwd()), 'agatweb', 'static', 'Stud',
+    path = os.path.join(os.path.abspath(os.getcwd()),  'static', 'Stud',
                         request.user.last_name + request.user.first_name, str(task_id), 'Task',
                         '{}{}{}'.format(request.user.last_name, request.user.first_name, '.pdf'))
     with open(path, 'rb') as pdf:

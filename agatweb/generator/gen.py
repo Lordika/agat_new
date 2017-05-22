@@ -3,7 +3,7 @@ import os
 import shutil
 
 from django.contrib.auth.models import User
-from .models import GenTask, Task
+from .models import GenTask, Task, TaskIcon
 
 class generation_task:
     def __init__(self, surname: str, name: str, task: int, user_id: int):
@@ -11,7 +11,14 @@ class generation_task:
         self.Surname = surname
         self.Task = task
         self.userId = user_id
-        self.TaskOb = GenTask(taskId=Task.objects.get(pk=task), user=User.objects.get(pk=user_id), status=1)
+        taskOb = Task.objects.get(pk=task)
+        userOb = User.objects.get(pk=user_id)
+        inst = GenTask.objects.filter(taskId=taskOb, user=userOb).count()+1
+        self.TaskOb = GenTask(taskId=taskOb,
+                              user=userOb,
+                              status=1,
+                              icon=TaskIcon.objects.get(pk=1),
+                              instance=inst)
         self.TaskOb.save()
 
     def gen(self):
@@ -47,6 +54,7 @@ class generation_task:
                 shutil.move(path2, path)
         os.chdir(self.steatdir)
         self.TaskOb.status = 2
+        self.TaskOb.icon = TaskIcon.objects.get(pk=2)
         self.TaskOb.save()
 
     def __doset(self):
