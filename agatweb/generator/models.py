@@ -27,7 +27,7 @@ class GenTask(models.Model):
     instance = models.IntegerField()
 
     def __str__(self):
-        return 'Работа пользователя {} №{}'.format(self.user, self.taskId.pk)
+        return 'Работа пользователя {} №{} попытка №{}'.format(self.user, self.taskId.pk, int(self.instance))
 
     def print(self):
         return 'Попытка №{}'.format(int(self.instance))
